@@ -1,0 +1,1996 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WorkTray — Your Live Work Queue</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════
+   WORKTRAY — Marketing Site
+   Theme: Dark industrial-retro with acid yellow
+   ═══════════════════════════════════════════ */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:       #0a0a0c;
+  --bg2:      #111115;
+  --bg3:      #18181e;
+  --bg4:      #202028;
+  --border:   #252530;
+  --border2:  #32323f;
+  --text:     #eeeef5;
+  --text2:    #9898b4;
+  --text3:    #55556a;
+  --accent:   #e8ff47;
+  --accent2:  #b8cc2a;
+  --dim:      #1e2205;
+  --red:      #ff4a4a;
+  --green:    #3dffa0;
+  --purple:   #c084fc;
+  --blue:     #60aaff;
+  --orange:   #ff9944;
+  --font-display: 'Syne', sans-serif;
+  --font-serif:   'Instrument Serif', serif;
+  --font-mono:    'JetBrains Mono', monospace;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-display);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* ── GRAIN OVERLAY ── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+  opacity: .025;
+  pointer-events: none;
+  z-index: 1000;
+}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg2); }
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+/* ════════════ NAV ════════════ */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  height: 60px;
+  background: rgba(10,10,12,.85);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+}
+.nav-logo-mark {
+  display: flex;
+  gap: 3px;
+  flex-wrap: wrap;
+  width: 22px;
+}
+.nav-logo-mark span {
+  display: block;
+  width: 9px;
+  height: 9px;
+  border-radius: 2px;
+  background: var(--accent);
+}
+.nav-logo-mark span:nth-child(2) { opacity: .5; }
+.nav-logo-mark span:nth-child(3) { opacity: .3; }
+.nav-logo-mark span:nth-child(4) { opacity: .75; }
+.nav-wordmark {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--text);
+  letter-spacing: -.01em;
+}
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  list-style: none;
+}
+.nav-links a {
+  color: var(--text2);
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 500;
+  transition: color .15s;
+}
+.nav-links a:hover { color: var(--text); }
+.nav-cta {
+  background: var(--accent);
+  color: #0a0a0c;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 6px;
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background .15s, transform .1s;
+  text-decoration: none;
+}
+.nav-cta:hover { background: var(--accent2); transform: translateY(-1px); }
+
+/* ════════════ HERO ════════════ */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 40px 60px;
+  position: relative;
+  text-align: center;
+  overflow: hidden;
+}
+
+/* Radial glow */
+.hero::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -60%);
+  width: 700px;
+  height: 500px;
+  background: radial-gradient(ellipse, rgba(232,255,71,.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* Grid lines */
+.hero-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size: 60px 60px;
+  opacity: .3;
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 30%, black 0%, transparent 100%);
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--dim);
+  border: 1px solid rgba(232,255,71,.3);
+  border-radius: 100px;
+  padding: 6px 14px;
+  font-size: 11px;
+  font-family: var(--font-mono);
+  font-weight: 500;
+  color: var(--accent);
+  letter-spacing: .05em;
+  margin-bottom: 28px;
+  position: relative;
+  z-index: 1;
+  animation: fadeUp .5s ease both;
+}
+.hero-badge-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  animation: pulse 2s ease infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: .5; transform: scale(.8); }
+}
+
+.hero h1 {
+  font-size: clamp(52px, 8vw, 100px);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -.04em;
+  position: relative;
+  z-index: 1;
+  animation: fadeUp .5s .1s ease both;
+}
+.hero h1 em {
+  font-style: normal;
+  font-family: var(--font-serif);
+  font-style: italic;
+  color: var(--accent);
+}
+.hero-sub {
+  font-size: clamp(16px, 2vw, 20px);
+  color: var(--text2);
+  max-width: 540px;
+  margin: 20px auto 0;
+  line-height: 1.6;
+  position: relative;
+  z-index: 1;
+  animation: fadeUp .5s .2s ease both;
+}
+.hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 36px;
+  position: relative;
+  z-index: 1;
+  animation: fadeUp .5s .3s ease both;
+}
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--accent);
+  color: #0a0a0c;
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 700;
+  padding: 14px 28px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background .15s, transform .12s;
+}
+.btn-primary:hover { background: var(--accent2); transform: translateY(-2px); }
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  color: var(--text2);
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 500;
+  padding: 14px 22px;
+  border-radius: 8px;
+  border: 1px solid var(--border2);
+  cursor: pointer;
+  text-decoration: none;
+  transition: border-color .15s, color .15s;
+}
+.btn-secondary:hover { border-color: var(--accent); color: var(--text); }
+
+/* Hero UI mockup */
+.hero-mockup {
+  position: relative;
+  z-index: 1;
+  margin-top: 60px;
+  animation: fadeUp .5s .4s ease both;
+}
+.mockup-shell {
+  width: 360px;
+  background: var(--bg2);
+  border: 1px solid var(--border2);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 40px 120px rgba(0,0,0,.8), 0 0 0 1px rgba(232,255,71,.06);
+  margin: 0 auto;
+}
+.mockup-bar {
+  display: flex;
+  align-items: center;
+  padding: 10px 14px;
+  background: var(--bg3);
+  border-bottom: 1px solid var(--border);
+  gap: 8px;
+}
+.mockup-dots { display: flex; gap: 5px; }
+.mockup-dots span {
+  width: 8px; height: 8px; border-radius: 50%;
+}
+.mockup-dots span:nth-child(1) { background: #ff5f57; }
+.mockup-dots span:nth-child(2) { background: #ffbd2e; }
+.mockup-dots span:nth-child(3) { background: #28c840; }
+.mockup-title {
+  flex: 1;
+  text-align: center;
+  font-size: 11px;
+  font-family: var(--font-mono);
+  color: var(--text3);
+}
+.mockup-body { padding: 0; }
+.mockup-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border);
+}
+.mockup-username {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.live-badge {
+  font-size: 9px;
+  font-family: var(--font-mono);
+  font-weight: 500;
+  background: rgba(61,255,160,.15);
+  color: var(--green);
+  border: 1px solid rgba(61,255,160,.3);
+  border-radius: 100px;
+  padding: 2px 7px;
+  letter-spacing: .05em;
+}
+.mockup-mode {
+  font-size: 10px;
+  font-family: var(--font-mono);
+  font-weight: 500;
+  background: var(--bg4);
+  border: 1px solid var(--border2);
+  border-radius: 100px;
+  padding: 4px 10px;
+  color: var(--accent);
+}
+.mockup-tabs {
+  display: flex;
+  border-bottom: 1px solid var(--border);
+}
+.mockup-tab {
+  flex: 1;
+  padding: 8px 0;
+  font-size: 11px;
+  font-weight: 600;
+  text-align: center;
+  color: var(--text3);
+  border-bottom: 2px solid transparent;
+}
+.mockup-tab.active {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+.task-list { padding: 10px; display: flex; flex-direction: column; gap: 6px; }
+.task-item {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 9px 11px;
+  animation: taskIn .4s ease both;
+}
+.task-item:nth-child(1) { animation-delay: .6s; }
+.task-item:nth-child(2) { animation-delay: .75s; }
+.task-item:nth-child(3) { animation-delay: .9s; }
+.task-item:nth-child(4) { animation-delay: 1.05s; }
+@keyframes taskIn {
+  from { opacity: 0; transform: translateX(12px); }
+  to   { opacity: 1; transform: none; }
+}
+.task-check {
+  width: 14px; height: 14px;
+  border: 1.5px solid var(--border2);
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.task-check.done {
+  border-color: var(--green);
+  background: rgba(61,255,160,.15);
+  display: flex; align-items: center; justify-content: center;
+}
+.task-text { flex: 1; font-size: 12px; color: var(--text); }
+.task-text.done { text-decoration: line-through; color: var(--text3); }
+.task-p {
+  font-size: 9px;
+  font-family: var(--font-mono);
+  font-weight: 500;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+.p1 { background: rgba(255,74,74,.15); color: var(--red); border: 1px solid rgba(255,74,74,.25); }
+.p2 { background: rgba(255,153,68,.12); color: var(--orange); border: 1px solid rgba(255,153,68,.22); }
+.p3 { background: rgba(96,170,255,.12); color: var(--blue); border: 1px solid rgba(96,170,255,.2); }
+.ai-tag {
+  font-size: 9px;
+  font-family: var(--font-mono);
+  color: var(--accent);
+  background: var(--dim);
+  border: 1px solid rgba(232,255,71,.25);
+  border-radius: 4px;
+  padding: 2px 5px;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ════════════ SECTION COMMON ════════════ */
+section {
+  padding: 100px 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.section-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 10px;
+  font-family: var(--font-mono);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  color: var(--accent);
+  margin-bottom: 16px;
+}
+.section-label::before {
+  content: '';
+  display: block;
+  width: 20px;
+  height: 1px;
+  background: var(--accent);
+}
+.section-title {
+  font-size: clamp(32px, 4vw, 52px);
+  font-weight: 800;
+  letter-spacing: -.03em;
+  line-height: 1.1;
+  margin-bottom: 16px;
+}
+.section-title em {
+  font-style: italic;
+  font-family: var(--font-serif);
+  color: var(--accent);
+}
+.section-sub {
+  font-size: 17px;
+  color: var(--text2);
+  max-width: 560px;
+  line-height: 1.65;
+}
+.full-bleed {
+  max-width: none;
+  padding-left: 0;
+  padding-right: 0;
+}
+.full-bleed > * {
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 40px;
+  padding-right: 40px;
+}
+
+/* ════════════ LOGOS STRIP ════════════ */
+.logos-strip {
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  background: var(--bg2);
+  padding: 24px 40px;
+  display: flex;
+  align-items: center;
+  gap: 0;
+  overflow: hidden;
+}
+.logos-label {
+  font-size: 11px;
+  font-family: var(--font-mono);
+  color: var(--text3);
+  white-space: nowrap;
+  margin-right: 40px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+.logos-track {
+  display: flex;
+  gap: 48px;
+  align-items: center;
+  animation: marquee 20s linear infinite;
+  white-space: nowrap;
+}
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.logo-item {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text3);
+  letter-spacing: .03em;
+  flex-shrink: 0;
+  transition: color .2s;
+}
+.logo-item:hover { color: var(--text2); }
+
+/* ════════════ USE CASES ════════════ */
+.usecases-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 56px;
+}
+.usecase-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 28px;
+  transition: border-color .2s, transform .2s;
+  position: relative;
+  overflow: hidden;
+}
+.usecase-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .3s;
+}
+.usecase-card:hover { border-color: var(--border2); transform: translateY(-3px); }
+.usecase-card:hover::before { transform: scaleX(1); }
+.usecase-icon {
+  width: 44px; height: 44px;
+  border-radius: 10px;
+  background: var(--bg3);
+  border: 1px solid var(--border2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  margin-bottom: 18px;
+}
+.usecase-card h3 {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--text);
+}
+.usecase-card p {
+  font-size: 13px;
+  color: var(--text2);
+  line-height: 1.65;
+}
+.usecase-tag {
+  display: inline-block;
+  margin-top: 14px;
+  font-size: 10px;
+  font-family: var(--font-mono);
+  color: var(--text3);
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 3px 8px;
+}
+
+/* ════════════ FEATURES BENTO ════════════ */
+.bento {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: auto;
+  gap: 14px;
+  margin-top: 56px;
+}
+.bento-cell {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 28px;
+  transition: border-color .2s;
+  overflow: hidden;
+  position: relative;
+}
+.bento-cell:hover { border-color: var(--border2); }
+
+.bento-1 { grid-column: span 7; }
+.bento-2 { grid-column: span 5; }
+.bento-3 { grid-column: span 5; }
+.bento-4 { grid-column: span 7; }
+.bento-5 { grid-column: span 4; }
+.bento-6 { grid-column: span 4; }
+.bento-7 { grid-column: span 4; }
+
+.bento-cell h3 {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -.02em;
+  margin-bottom: 10px;
+}
+.bento-cell p {
+  font-size: 13px;
+  color: var(--text2);
+  line-height: 1.65;
+  max-width: 340px;
+}
+.bento-accent { color: var(--accent); }
+.bento-visual {
+  margin-top: 20px;
+}
+
+/* Realtime dots visual */
+.presence-row {
+  display: flex;
+  gap: 10px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+.presence-pill {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  background: var(--bg3);
+  border: 1px solid var(--border2);
+  border-radius: 100px;
+  padding: 6px 12px;
+}
+.pdot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+}
+.pdot-green { background: var(--green); box-shadow: 0 0 6px var(--green); }
+.pdot-orange { background: var(--orange); box-shadow: 0 0 6px var(--orange); }
+.pdot-blue { background: var(--blue); box-shadow: 0 0 6px var(--blue); }
+.pdot-gray { background: var(--text3); }
+.presence-name { font-size: 12px; font-weight: 600; }
+.presence-status { font-size: 10px; font-family: var(--font-mono); color: var(--text3); }
+
+/* Push visual */
+.push-bubble {
+  background: var(--bg4);
+  border: 1px solid var(--border2);
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin-top: 12px;
+  font-size: 12px;
+}
+.push-from { font-size: 10px; font-family: var(--font-mono); color: var(--accent); margin-bottom: 4px; }
+.push-text { color: var(--text); margin-bottom: 8px; }
+.push-actions { display: flex; gap: 6px; }
+.push-btn {
+  font-size: 10px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-display);
+}
+.push-accept { background: rgba(61,255,160,.2); color: var(--green); border: 1px solid rgba(61,255,160,.35); }
+.push-decline { background: var(--bg3); color: var(--text3); border: 1px solid var(--border); }
+
+/* AI visual */
+.ai-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--dim);
+  border: 1px solid rgba(232,255,71,.28);
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 12px;
+  color: var(--accent);
+  margin-top: 12px;
+  font-family: var(--font-mono);
+}
+.ai-suggestion {
+  background: var(--bg3);
+  border: 1px solid var(--border2);
+  border-left: 3px solid var(--accent);
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin-top: 10px;
+  font-size: 12px;
+  color: var(--text2);
+}
+
+/* Handoff visual */
+.handoff-card {
+  background: var(--bg3);
+  border: 1px solid var(--border2);
+  border-radius: 10px;
+  padding: 14px;
+  margin-top: 14px;
+}
+.handoff-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+.handoff-from { font-size: 11px; font-family: var(--font-mono); color: var(--purple); }
+.handoff-tabs {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-top: 6px;
+}
+.handoff-tab {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 11px;
+  color: var(--text2);
+  background: var(--bg4);
+  border-radius: 5px;
+  padding: 5px 8px;
+}
+.tab-favicon {
+  width: 12px; height: 12px;
+  border-radius: 2px;
+  background: var(--border2);
+}
+
+/* ════════════ MASCOT SECTION ════════════ */
+.mascot-section {
+  background: var(--bg2);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 100px 40px;
+}
+.mascot-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+.mascot-states {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+.mascot-state {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px 16px;
+  text-align: center;
+  transition: border-color .2s;
+  cursor: default;
+}
+.mascot-state:hover { border-color: var(--accent); }
+.mascot-emoji { font-size: 36px; display: block; margin-bottom: 10px; }
+.mascot-state-name {
+  font-size: 11px;
+  font-weight: 700;
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: var(--text3);
+  margin-bottom: 4px;
+}
+.mascot-state-desc { font-size: 11px; color: var(--text3); }
+
+/* ════════════ AI FEATURES ════════════ */
+.ai-features-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-top: 56px;
+}
+.ai-feature-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 28px;
+  position: relative;
+  overflow: hidden;
+  transition: border-color .2s, transform .2s;
+}
+.ai-feature-card::after {
+  content: '✦';
+  position: absolute;
+  top: 20px; right: 24px;
+  font-size: 18px;
+  color: rgba(232,255,71,.2);
+  transition: color .2s;
+}
+.ai-feature-card:hover { border-color: rgba(232,255,71,.3); transform: translateY(-2px); }
+.ai-feature-card:hover::after { color: var(--accent); }
+.ai-feature-icon {
+  width: 40px; height: 40px;
+  background: var(--dim);
+  border: 1px solid rgba(232,255,71,.2);
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+  margin-bottom: 16px;
+}
+.ai-feature-card h3 {
+  font-size: 17px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+.ai-feature-card p {
+  font-size: 13px;
+  color: var(--text2);
+  line-height: 1.65;
+}
+.ai-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 14px;
+  font-size: 10px;
+  font-family: var(--font-mono);
+  color: var(--accent);
+  background: var(--dim);
+  border: 1px solid rgba(232,255,71,.2);
+  border-radius: 4px;
+  padding: 3px 8px;
+}
+
+/* ════════════ INTEGRATIONS ════════════ */
+.integrations-section {
+  background: linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
+  border-top: 1px solid var(--border);
+  padding: 100px 40px;
+}
+.integrations-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.integrations-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin-top: 56px;
+}
+.integration-card {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 24px 20px;
+  text-align: center;
+  transition: border-color .2s, transform .2s;
+  position: relative;
+}
+.integration-card.soon::after {
+  content: 'SOON';
+  position: absolute;
+  top: 10px; right: 10px;
+  font-size: 8px;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  letter-spacing: .1em;
+  color: var(--orange);
+  background: rgba(255,153,68,.12);
+  border: 1px solid rgba(255,153,68,.25);
+  border-radius: 4px;
+  padding: 2px 6px;
+}
+.integration-card.live::after {
+  content: 'LIVE';
+  position: absolute;
+  top: 10px; right: 10px;
+  font-size: 8px;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  letter-spacing: .1em;
+  color: var(--green);
+  background: rgba(61,255,160,.1);
+  border: 1px solid rgba(61,255,160,.22);
+  border-radius: 4px;
+  padding: 2px 6px;
+}
+.integration-card:hover { border-color: var(--border2); transform: translateY(-2px); }
+.integration-logo {
+  width: 48px; height: 48px;
+  border-radius: 12px;
+  background: var(--bg4);
+  border: 1px solid var(--border2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  margin: 0 auto 14px;
+}
+.integration-card h4 {
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.integration-card p {
+  font-size: 11px;
+  color: var(--text3);
+  line-height: 1.5;
+}
+.integrations-platforms {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 40px;
+  flex-wrap: wrap;
+}
+.platform-chip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 600;
+}
+.platform-status-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+}
+
+/* ════════════ PRICING ════════════ */
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 56px;
+  align-items: start;
+}
+.pricing-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 32px 28px;
+  position: relative;
+  transition: border-color .2s;
+}
+.pricing-card.featured {
+  border-color: rgba(232,255,71,.35);
+  background: var(--bg3);
+}
+.pricing-card.featured::before {
+  content: 'Most Popular';
+  position: absolute;
+  top: -1px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--accent);
+  color: #0a0a0c;
+  font-size: 10px;
+  font-weight: 700;
+  font-family: var(--font-mono);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  padding: 4px 14px;
+  border-radius: 0 0 8px 8px;
+}
+.pricing-name {
+  font-size: 13px;
+  font-weight: 700;
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  color: var(--text3);
+  margin-bottom: 12px;
+}
+.pricing-price {
+  font-size: 44px;
+  font-weight: 800;
+  letter-spacing: -.04em;
+  line-height: 1;
+}
+.pricing-cycle {
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--text3);
+  margin-left: 4px;
+}
+.pricing-desc {
+  font-size: 13px;
+  color: var(--text2);
+  margin-top: 8px;
+  margin-bottom: 24px;
+  line-height: 1.55;
+}
+.pricing-divider {
+  height: 1px;
+  background: var(--border);
+  margin-bottom: 20px;
+}
+.pricing-features {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 28px;
+}
+.pricing-features li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 13px;
+  color: var(--text2);
+}
+.feat-check {
+  width: 16px; height: 16px;
+  border-radius: 50%;
+  background: rgba(61,255,160,.15);
+  border: 1px solid rgba(61,255,160,.3);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.feat-check svg { width: 8px; height: 8px; stroke: var(--green); }
+.feat-x {
+  width: 16px; height: 16px;
+  border-radius: 50%;
+  background: var(--bg4);
+  border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.feat-x svg { width: 8px; height: 8px; stroke: var(--text3); }
+.feat-ai-star {
+  width: 16px; height: 16px;
+  border-radius: 50%;
+  background: var(--dim);
+  border: 1px solid rgba(232,255,71,.3);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  font-size: 9px;
+  margin-top: 1px;
+}
+.pricing-btn {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all .15s;
+}
+.pricing-btn-primary {
+  background: var(--accent);
+  color: #0a0a0c;
+  border: none;
+}
+.pricing-btn-primary:hover { background: var(--accent2); }
+.pricing-btn-secondary {
+  background: transparent;
+  color: var(--text2);
+  border: 1px solid var(--border2);
+}
+.pricing-btn-secondary:hover { border-color: var(--accent); color: var(--text); }
+
+/* Currency row */
+.pricing-currency {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 36px;
+  flex-wrap: wrap;
+}
+.currency-btn {
+  font-size: 12px;
+  font-family: var(--font-mono);
+  font-weight: 500;
+  padding: 6px 14px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text3);
+  cursor: pointer;
+  transition: all .15s;
+}
+.currency-btn.active {
+  background: var(--dim);
+  border-color: rgba(232,255,71,.3);
+  color: var(--accent);
+}
+.currency-btn:hover { color: var(--text2); border-color: var(--border2); }
+
+/* Interval toggle */
+.interval-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  width: fit-content;
+  margin: 0 auto 20px;
+}
+.interval-btn {
+  padding: 8px 20px;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: var(--font-display);
+  border: none;
+  background: transparent;
+  color: var(--text3);
+  cursor: pointer;
+  transition: all .15s;
+  position: relative;
+}
+.interval-btn.active {
+  background: var(--bg3);
+  color: var(--text);
+}
+.save-badge {
+  font-size: 9px;
+  font-family: var(--font-mono);
+  color: var(--green);
+  background: rgba(61,255,160,.12);
+  border: 1px solid rgba(61,255,160,.25);
+  border-radius: 4px;
+  padding: 1px 5px;
+  margin-left: 6px;
+}
+
+/* ════════════ TESTIMONIALS ════════════ */
+.testimonials-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 56px;
+}
+.testimonial-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 28px;
+}
+.testimonial-stars {
+  display: flex;
+  gap: 3px;
+  margin-bottom: 14px;
+}
+.star { color: var(--accent); font-size: 13px; }
+.testimonial-text {
+  font-size: 14px;
+  color: var(--text2);
+  line-height: 1.7;
+  font-style: italic;
+  font-family: var(--font-serif);
+  margin-bottom: 20px;
+}
+.testimonial-author {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.author-avatar {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: var(--bg4);
+  border: 1px solid var(--border2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--accent);
+}
+.author-name { font-size: 13px; font-weight: 700; }
+.author-title { font-size: 11px; color: var(--text3); font-family: var(--font-mono); }
+
+/* ════════════ CTA SECTION ════════════ */
+.cta-section {
+  text-align: center;
+  padding: 120px 40px;
+  position: relative;
+  overflow: hidden;
+}
+.cta-section::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 600px;
+  height: 400px;
+  background: radial-gradient(ellipse, rgba(232,255,71,.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+.cta-section h2 {
+  font-size: clamp(36px, 5vw, 64px);
+  font-weight: 800;
+  letter-spacing: -.04em;
+  line-height: 1.05;
+  margin-bottom: 16px;
+  position: relative;
+  z-index: 1;
+}
+.cta-section p {
+  font-size: 17px;
+  color: var(--text2);
+  margin-bottom: 36px;
+  position: relative;
+  z-index: 1;
+}
+.cta-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  position: relative;
+  z-index: 1;
+}
+.cta-note {
+  display: block;
+  margin-top: 16px;
+  font-size: 12px;
+  font-family: var(--font-mono);
+  color: var(--text3);
+  position: relative;
+  z-index: 1;
+}
+
+/* ════════════ FOOTER ════════════ */
+footer {
+  border-top: 1px solid var(--border);
+  background: var(--bg2);
+  padding: 60px 40px 40px;
+}
+.footer-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 60px;
+  margin-bottom: 48px;
+}
+.footer-brand p {
+  font-size: 13px;
+  color: var(--text3);
+  line-height: 1.65;
+  margin-top: 12px;
+  max-width: 260px;
+}
+.footer-col h5 {
+  font-size: 11px;
+  font-weight: 700;
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  color: var(--text3);
+  margin-bottom: 16px;
+}
+.footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.footer-col a {
+  font-size: 13px;
+  color: var(--text2);
+  text-decoration: none;
+  transition: color .15s;
+}
+.footer-col a:hover { color: var(--accent); }
+.footer-bottom {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+}
+.footer-bottom p { font-size: 12px; color: var(--text3); font-family: var(--font-mono); }
+.footer-links { display: flex; gap: 20px; }
+.footer-links a { font-size: 12px; color: var(--text3); text-decoration: none; font-family: var(--font-mono); }
+.footer-links a:hover { color: var(--text2); }
+
+/* ════════════ RESPONSIVE ════════════ */
+@media (max-width: 1024px) {
+  .usecases-grid { grid-template-columns: repeat(2, 1fr); }
+  .bento-1, .bento-2, .bento-3, .bento-4,
+  .bento-5, .bento-6, .bento-7 { grid-column: span 12; }
+  .integrations-grid { grid-template-columns: repeat(2, 1fr); }
+  .pricing-grid { grid-template-columns: 1fr 1fr; }
+  .testimonials-grid { grid-template-columns: 1fr 1fr; }
+  .footer-inner { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 768px) {
+  nav { padding: 0 20px; }
+  nav .nav-links { display: none; }
+  section { padding: 60px 20px; }
+  .hero { padding: 80px 20px 50px; }
+  .hero-actions { flex-direction: column; align-items: stretch; }
+  .usecases-grid { grid-template-columns: 1fr; }
+  .ai-features-grid { grid-template-columns: 1fr; }
+  .integrations-grid { grid-template-columns: repeat(2, 1fr); }
+  .pricing-grid { grid-template-columns: 1fr; }
+  .testimonials-grid { grid-template-columns: 1fr; }
+  .mascot-inner { grid-template-columns: 1fr; gap: 40px; }
+  .footer-inner { grid-template-columns: 1fr; gap: 32px; }
+  .footer-bottom { flex-direction: column; gap: 12px; }
+}
+
+/* Scroll reveal */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity .6s ease, transform .6s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: none;
+}
+</style>
+</head>
+<body>
+
+<!-- ════════════ NAV ════════════ -->
+<nav>
+  <a href="#" class="nav-logo">
+    <div class="nav-logo-mark">
+      <span></span><span></span><span></span><span></span>
+    </div>
+    <span class="nav-wordmark">WorkTray</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#usecases">Use Cases</a></li>
+    <li><a href="#features">Features</a></li>
+    <li><a href="#ai">AI</a></li>
+    <li><a href="#integrations">Integrations</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+  </ul>
+  <a href="#pricing" class="nav-cta">Get WorkTray →</a>
+</nav>
+
+<!-- ════════════ HERO ════════════ -->
+<div class="hero">
+  <div class="hero-grid"></div>
+
+  <div class="hero-badge">
+    <span class="hero-badge-dot"></span>
+    Now with AI Priority · Standup Generator · NL Search
+  </div>
+
+  <h1>Your work queue,<br><em>always live.</em></h1>
+  <p class="hero-sub">WorkTray is the Chrome extension that keeps your tasks, your team's tasks, and handoffs in sync — in real time, right in your browser.</p>
+
+  <div class="hero-actions">
+    <a href="#" class="btn-primary">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      Add to Chrome — Free
+    </a>
+    <a href="#features" class="btn-secondary">See how it works →</a>
+  </div>
+
+  <div class="hero-mockup">
+    <div class="mockup-shell">
+      <div class="mockup-bar">
+        <div class="mockup-dots">
+          <span></span><span></span><span></span>
+        </div>
+        <span class="mockup-title">WorkTray</span>
+      </div>
+      <div class="mockup-body">
+        <div class="mockup-topbar">
+          <div class="mockup-username">
+            <div style="width:24px;height:24px;border-radius:50%;background:var(--dim);border:1px solid rgba(232,255,71,.3);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--accent)">A</div>
+            @alex
+            <span class="live-badge">● LIVE</span>
+          </div>
+          <span class="mockup-mode">TEAM MODE</span>
+        </div>
+        <div class="mockup-tabs">
+          <div class="mockup-tab active">My Tray <span style="background:var(--dim);color:var(--accent);border-radius:4px;padding:1px 6px;font-size:9px;font-family:var(--font-mono)">4</span></div>
+          <div class="mockup-tab">Team <span style="background:var(--bg4);color:var(--text3);border-radius:4px;padding:1px 6px;font-size:9px;font-family:var(--font-mono)">8</span></div>
+          <div class="mockup-tab">Handoffs</div>
+          <div class="mockup-tab">Feed</div>
+        </div>
+        <div class="task-list">
+          <div class="task-item">
+            <div class="task-check done">
+              <svg width="8" height="8" viewBox="0 0 10 10" fill="none" stroke="var(--green)" stroke-width="2" stroke-linecap="round"><polyline points="1.5,5 4,7.5 8.5,2.5"/></svg>
+            </div>
+            <span class="task-text done">Review PR #142</span>
+            <span class="task-p p2">P2</span>
+          </div>
+          <div class="task-item">
+            <div class="task-check"></div>
+            <span class="task-text">Fix auth token expiry bug</span>
+            <span class="task-p p1">P1</span>
+            <span class="ai-tag">✦ AI</span>
+          </div>
+          <div class="task-item">
+            <div class="task-check"></div>
+            <span class="task-text">Write release notes v3.1</span>
+            <span class="task-p p2">P2</span>
+          </div>
+          <div class="task-item">
+            <div class="task-check"></div>
+            <span class="task-text">Standup with design team</span>
+            <span class="task-p p3">P3</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════ LOGO STRIP ════════════ -->
+<div class="logos-strip">
+  <span class="logos-label">Loved by teams at</span>
+  <div class="logos-track">
+    <span class="logo-item">Vercel</span>
+    <span class="logo-item">Linear</span>
+    <span class="logo-item">Figma</span>
+    <span class="logo-item">Notion</span>
+    <span class="logo-item">Stripe</span>
+    <span class="logo-item">Loom</span>
+    <span class="logo-item">Raycast</span>
+    <span class="logo-item">Supabase</span>
+    <!-- duplicate for seamless loop -->
+    <span class="logo-item">Vercel</span>
+    <span class="logo-item">Linear</span>
+    <span class="logo-item">Figma</span>
+    <span class="logo-item">Notion</span>
+    <span class="logo-item">Stripe</span>
+    <span class="logo-item">Loom</span>
+    <span class="logo-item">Raycast</span>
+    <span class="logo-item">Supabase</span>
+  </div>
+</div>
+
+<!-- ════════════ USE CASES ════════════ -->
+<section id="usecases">
+  <div class="section-label">Use Cases</div>
+  <h2 class="section-title">Built for how real<br>teams <em>actually work</em></h2>
+  <p class="section-sub">Whether you're solo deep in focus or coordinating across 12 time zones, WorkTray adapts to your workflow — not the other way around.</p>
+
+  <div class="usecases-grid reveal">
+    <div class="usecase-card">
+      <div class="usecase-icon">🎯</div>
+      <h3>Solo Deep Work</h3>
+      <p>Switch to Focus mode and see only your tasks. No team noise. Priority-sorted, due-date aware. Your tray becomes a distraction-free cockpit for the next 3 hours.</p>
+      <span class="usecase-tag">Solo Mode</span>
+    </div>
+    <div class="usecase-card">
+      <div class="usecase-icon">🔁</div>
+      <h3>End-of-Day Handoffs</h3>
+      <p>Bundle your active tabs, task context, and a note — then send it to tomorrow's shift in one click. They open your exact browser session and continue right where you stopped.</p>
+      <span class="usecase-tag">Handoff Bundles</span>
+    </div>
+    <div class="usecase-card">
+      <div class="usecase-icon">📢</div>
+      <h3>Daily Standups</h3>
+      <p>One click generates a formatted standup from your completed and active tasks. Copy it into Slack or Teams in seconds. No more "what did I even do yesterday?"</p>
+      <span class="usecase-tag">AI Standup</span>
+    </div>
+    <div class="usecase-card">
+      <div class="usecase-icon">⚡</div>
+      <h3>Real-Time Task Push</h3>
+      <p>See a blocker? Push a task directly to a teammate's tray. They get a toast notification and can accept or decline. No email, no Slack DM, no context switching.</p>
+      <span class="usecase-tag">Push &amp; Confirm</span>
+    </div>
+    <div class="usecase-card">
+      <div class="usecase-icon">🕐</div>
+      <h3>Async Remote Teams</h3>
+      <p>Know who's in Focus, Available, Waiting, or Away at a glance. Hand off work across time zones without a single meeting. WorkTray is always-on team presence.</p>
+      <span class="usecase-tag">Presence Status</span>
+    </div>
+    <div class="usecase-card">
+      <div class="usecase-icon">📊</div>
+      <h3>Team Leads &amp; PMs</h3>
+      <p>See your whole team's velocity in the Analytics dashboard. Spot bottlenecks, track completion rates, and identify the most re-pushed tasks — all without leaving the browser.</p>
+      <span class="usecase-tag">Team Analytics</span>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════ FEATURES BENTO ════════════ -->
+<section id="features" style="padding-top:0">
+  <div class="section-label">Features</div>
+  <h2 class="section-title">Everything your team<br>needs to <em>stay in sync</em></h2>
+
+  <div class="bento reveal">
+
+    <!-- Real-time sync -->
+    <div class="bento-cell bento-1">
+      <h3>Real-time team sync <span class="bento-accent">●</span></h3>
+      <p>Your entire team's task queue updates live via Supabase Realtime. No refreshing. No polling. Changes appear on your teammates' screens in under 500ms.</p>
+      <div class="bento-visual">
+        <div class="presence-row">
+          <div class="presence-pill">
+            <span class="pdot pdot-green"></span>
+            <div><div class="presence-name">Priya</div><div class="presence-status">🎯 Focus</div></div>
+          </div>
+          <div class="presence-pill">
+            <span class="pdot pdot-orange"></span>
+            <div><div class="presence-name">Marcus</div><div class="presence-status">⏳ Waiting</div></div>
+          </div>
+          <div class="presence-pill">
+            <span class="pdot pdot-blue"></span>
+            <div><div class="presence-name">Selin</div><div class="presence-status">✅ Available</div></div>
+          </div>
+          <div class="presence-pill">
+            <span class="pdot pdot-gray"></span>
+            <div><div class="presence-name">Raj</div><div class="presence-status">🌙 Away</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Push confirm -->
+    <div class="bento-cell bento-2">
+      <h3>Push with confirmation</h3>
+      <p>Tasks never appear uninvited. Every push requires explicit acceptance — keeping your teammates' trays clean.</p>
+      <div class="bento-visual">
+        <div class="push-bubble">
+          <div class="push-from">↓ FROM @priya</div>
+          <div class="push-text">Review the auth PR — blocking deploy</div>
+          <div class="push-actions">
+            <button class="push-btn push-accept">✓ Accept</button>
+            <button class="push-btn push-decline">✕ Decline</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Handoff -->
+    <div class="bento-cell bento-3">
+      <h3>Tab bundle handoffs</h3>
+      <p>Send your exact browser context — open tabs, task, and a note — to any teammate.</p>
+      <div class="bento-visual">
+        <div class="handoff-card">
+          <div class="handoff-header">
+            <span style="font-size:12px;font-weight:700">Auth refactor handoff</span>
+            <span class="handoff-from">@marcus →</span>
+          </div>
+          <div style="font-size:11px;color:var(--text3);margin-bottom:8px">"Continue from the OAuth flow — tabs below are open."</div>
+          <div class="handoff-tabs">
+            <div class="handoff-tab"><div class="tab-favicon" style="background:#4285f4"></div>Google OAuth Docs</div>
+            <div class="handoff-tab"><div class="tab-favicon" style="background:#333"></div>GitHub PR #142</div>
+            <div class="handoff-tab"><div class="tab-favicon" style="background:#1a1a2e"></div>Supabase Dashboard</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- AI priority -->
+    <div class="bento-cell bento-4">
+      <h3>✦ AI-powered priority</h3>
+      <p>WorkTray analyses your task text, due date, and context to suggest the right priority level. Click to apply — or dismiss and trust your gut. You're always in control.</p>
+      <div class="bento-visual" style="display:flex;gap:10px;flex-wrap:wrap">
+        <div class="ai-chip">✦ Suggested: P1</div>
+        <div class="ai-suggestion">This task mentions a deploy block and is due today — marking P2 likely underestimates urgency.</div>
+      </div>
+    </div>
+
+    <!-- Offline -->
+    <div class="bento-cell bento-5">
+      <h3>Works offline</h3>
+      <p>Tasks persist locally. When you reconnect, everything syncs automatically.</p>
+      <div style="margin-top:14px;display:flex;align-items:center;gap:8px">
+        <div style="width:8px;height:8px;border-radius:50%;background:var(--orange);box-shadow:0 0 8px var(--orange)"></div>
+        <span style="font-size:12px;font-family:var(--font-mono);color:var(--orange)">Offline — 3 changes queued</span>
+      </div>
+      <div style="margin-top:8px;display:flex;align-items:center;gap:8px">
+        <div style="width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green)"></div>
+        <span style="font-size:12px;font-family:var(--font-mono);color:var(--green)">Back online — synced</span>
+      </div>
+    </div>
+
+    <!-- Labels -->
+    <div class="bento-cell bento-6">
+      <h3>Labels &amp; filters</h3>
+      <p>Tag tasks with custom colour labels. Filter by project, urgency, or privacy in one click.</p>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:14px">
+        <span style="font-size:10px;padding:3px 9px;border-radius:4px;background:rgba(96,170,255,.15);color:var(--blue);border:1px solid rgba(96,170,255,.25);">#client</span>
+        <span style="font-size:10px;padding:3px 9px;border-radius:4px;background:rgba(192,132,252,.15);color:var(--purple);border:1px solid rgba(192,132,252,.25);">#bug</span>
+        <span style="font-size:10px;padding:3px 9px;border-radius:4px;background:rgba(61,255,160,.12);color:var(--green);border:1px solid rgba(61,255,160,.22);">#review</span>
+        <span style="font-size:10px;padding:3px 9px;border-radius:4px;background:rgba(255,153,68,.12);color:var(--orange);border:1px solid rgba(255,153,68,.22);">#infra</span>
+      </div>
+    </div>
+
+    <!-- Capture tab -->
+    <div class="bento-cell bento-7">
+      <h3>Capture any tab</h3>
+      <p>One click turns the current tab's title and URL into a task. Never lose track of a page again.</p>
+      <div style="margin-top:14px;background:var(--bg3);border:1px solid var(--border2);border-radius:8px;padding:10px 12px;font-size:11px;font-family:var(--font-mono);color:var(--text2);display:flex;align-items:center;gap:8px">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        Figma — Q3 Design System
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ════════════ MASCOT SECTION ════════════ -->
+<div class="mascot-section">
+  <div class="mascot-inner">
+    <div>
+      <div class="section-label">Meet the Mascot</div>
+      <h2 class="section-title" style="font-size:clamp(28px,3.5vw,44px)">Say hi to<br><em>the Tray</em></h2>
+      <p style="font-size:15px;color:var(--text2);line-height:1.7;margin-top:12px">WorkTray's mascot lives on every web page — a tiny robot tray that reacts to what's happening in your work queue. It floats, bobs, tilts, and celebrates. Drag it anywhere. Click it to open your tray. It's always watching your back.</p>
+      <p style="font-size:13px;color:var(--text3);margin-top:16px;font-family:var(--font-mono)">Built with layered CSS animations · Respects prefers-reduced-motion · Persists position across sessions</p>
+    </div>
+    <div>
+      <div class="mascot-states">
+        <div class="mascot-state">
+          <span class="mascot-emoji">😐</span>
+          <div class="mascot-state-name">Idle</div>
+          <div class="mascot-state-desc">Floating gently. All quiet.</div>
+        </div>
+        <div class="mascot-state">
+          <span class="mascot-emoji">🔔</span>
+          <div class="mascot-state-name">Alert</div>
+          <div class="mascot-state-desc">New task pushed to you.</div>
+        </div>
+        <div class="mascot-state">
+          <span class="mascot-emoji">🤔</span>
+          <div class="mascot-state-name">Thinking</div>
+          <div class="mascot-state-desc">AI is working on it.</div>
+        </div>
+        <div class="mascot-state">
+          <span class="mascot-emoji">🎉</span>
+          <div class="mascot-state-name">Celebrating</div>
+          <div class="mascot-state-desc">Task completed!</div>
+        </div>
+        <div class="mascot-state">
+          <span class="mascot-emoji">💤</span>
+          <div class="mascot-state-name">Resting</div>
+          <div class="mascot-state-desc">Idle for 3+ minutes.</div>
+        </div>
+        <div class="mascot-state">
+          <span class="mascot-emoji">😍</span>
+          <div class="mascot-state-name">Love</div>
+          <div class="mascot-state-desc">Handoff received!</div>
+        </div>
+      </div>
+      <p style="font-size:11px;font-family:var(--font-mono);color:var(--text3);margin-top:14px;text-align:center">Toggle the mascot on/off in Settings · 3-layer composition engine</p>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════ AI FEATURES ════════════ -->
+<section id="ai">
+  <div class="section-label">AI Features · Pro</div>
+  <h2 class="section-title">Superpowers for<br>people who ship <em>fast</em></h2>
+  <p class="section-sub">WorkTray Pro adds a suite of AI tools that learn your patterns, surface what matters, and handle the boring parts of task management — so you don't have to.</p>
+
+  <div class="ai-features-grid reveal">
+    <div class="ai-feature-card">
+      <div class="ai-feature-icon">🎯</div>
+      <h3>Smart Priority Suggestions</h3>
+      <p>AI reads your task text, due date, and recent activity to suggest the correct P1/P2/P3 level. It explains why — and you can always override it. No black box.</p>
+      <span class="ai-badge">✦ Pro feature</span>
+    </div>
+    <div class="ai-feature-card">
+      <div class="ai-feature-icon">📋</div>
+      <h3>Daily Standup Generator</h3>
+      <p>Click once. WorkTray collects yesterday's completions and today's active tasks, then generates a paste-ready standup in your team's format. Slack, Teams, Notion — just paste.</p>
+      <span class="ai-badge">✦ Pro feature</span>
+    </div>
+    <div class="ai-feature-card">
+      <div class="ai-feature-icon">⊞</div>
+      <h3>AI Task Breakdown</h3>
+      <p>Turn vague tasks like "plan marketing campaign" into 3–5 actionable subtasks with one click. Select which ones to add to your tray. Your big scary task becomes manageable steps.</p>
+      <span class="ai-badge">✦ Pro feature</span>
+    </div>
+    <div class="ai-feature-card">
+      <div class="ai-feature-icon">🔍</div>
+      <h3>Natural Language Search</h3>
+      <p>Ask your tray anything: "What did I do last week?", "Show urgent auth bugs", "What is Sarah working on?". WorkTray understands intent, not just keywords.</p>
+      <span class="ai-badge">✦ Pro feature</span>
+    </div>
+  </div>
+
+  <div style="margin-top:24px;background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:24px 28px;display:flex;align-items:center;gap:20px;flex-wrap:wrap" class="reveal">
+    <div style="font-size:22px">🔒</div>
+    <div>
+      <div style="font-size:14px;font-weight:700;margin-bottom:4px">Every AI feature has an on/off switch</div>
+      <div style="font-size:13px;color:var(--text2)">Don't want AI priority on your personal tasks? Turn it off. WorkTray never makes AI decisions without your permission. All toggles live in Settings.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════ INTEGRATIONS ════════════ -->
+<div class="integrations-section" id="integrations">
+  <div class="integrations-inner">
+    <div class="section-label">Integrations</div>
+    <h2 class="section-title">Fits inside your<br><em>existing stack</em></h2>
+    <p class="section-sub">WorkTray works where your team already is. Current integrations are live. The next wave is coming soon.</p>
+
+    <div class="integrations-grid reveal">
+      <div class="integration-card live">
+        <div class="integration-logo">🗄️</div>
+        <h4>Supabase</h4>
+        <p>Real-time database, auth, and presence. The backbone of WorkTray's live sync engine.</p>
+      </div>
+      <div class="integration-card live">
+        <div class="integration-logo">🤖</div>
+        <h4>DeepSeek AI</h4>
+        <p>Powers all AI features — priority, standup, breakdown, and natural language search.</p>
+      </div>
+      <div class="integration-card live">
+        <div class="integration-logo">🌐</div>
+        <h4>Chrome Extension</h4>
+        <p>Native browser integration via Manifest V3. Tabs, notifications, downloads, and more.</p>
+      </div>
+      <div class="integration-card soon">
+        <div class="integration-logo">💬</div>
+        <h4>Slack</h4>
+        <p>Post standups, receive push notifications, and sync tasks directly from your workspace.</p>
+      </div>
+      <div class="integration-card soon">
+        <div class="integration-logo">📅</div>
+        <h4>Google Calendar</h4>
+        <p>Sync due dates bidirectionally. Tasks with dates become calendar events automatically.</p>
+      </div>
+      <div class="integration-card soon">
+        <div class="integration-logo">🟦</div>
+        <h4>Microsoft Teams</h4>
+        <p>WorkTray as a Teams tab and bot. Get push notifications inside your Teams workspace.</p>
+      </div>
+      <div class="integration-card soon">
+        <div class="integration-logo">🦊</div>
+        <h4>Firefox &amp; Edge</h4>
+        <p>The extension is coming to Firefox via AMO and Edge natively through the Chrome store.</p>
+      </div>
+      <div class="integration-card soon">
+        <div class="integration-logo">📱</div>
+        <h4>Mobile PWA</h4>
+        <p>Check your tray, mark tasks done, and see team presence from any phone or tablet.</p>
+      </div>
+    </div>
+
+    <div class="integrations-platforms reveal" style="margin-top:32px">
+      <span style="font-size:12px;font-family:var(--font-mono);color:var(--text3);margin-right:8px">Roadmap:</span>
+      <div class="platform-chip"><span class="platform-status-dot" style="background:var(--green)"></span>Supabase</div>
+      <div class="platform-chip"><span class="platform-status-dot" style="background:var(--green)"></span>DeepSeek</div>
+      <div class="platform-chip"><span class="platform-status-dot" style="background:var(--orange)"></span>Slack</div>
+      <div class="platform-chip"><span class="platform-status-dot" style="background:var(--orange)"></span>G-Calendar</div>
+      <div class="platform-chip"><span class="platform-status-dot" style="background:var(--orange)"></span>MS Teams</div>
+      <div class="platform-chip"><span class="platform-status-dot" style="background:var(--text3)"></span>Notion</div>
+      <div class="platform-chip"><span class="platform-status-dot" style="background:var(--text3)"></span>Linear</div>
+      <div class="platform-chip"><span class="platform-status-dot" style="background:var(--text3)"></span>Jira</div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════ PRICING ════════════ -->
+<section id="pricing">
+  <div class="section-label">Pricing</div>
+  <h2 class="section-title">Start free.<br>Upgrade when you're <em>ready.</em></h2>
+  <p class="section-sub">No credit card required to start. The Free plan gives your whole team real-time sync and collaboration forever.</p>
+
+  <div style="margin-top:40px">
+    <div class="interval-toggle" id="interval-toggle">
+      <button class="interval-btn active" data-interval="monthly" onclick="setInterval2('monthly')">Monthly</button>
+      <button class="interval-btn" data-interval="annual" onclick="setInterval2('annual')">Annual <span class="save-badge">Save 20%</span></button>
+    </div>
+  </div>
+
+  <div class="pricing-currency reveal" id="currency-row">
+    <button class="currency-btn active" data-currency="USD" onclick="setCurrency('USD')">USD $</button>
+    <button class="currency-btn" data-currency="INR" onclick="setCurrency('INR')">INR ₹</button>
+    <button class="currency-btn" data-currency="EUR" onclick="setCurrency('EUR')">EUR €</button>
+    <button class="currency-btn" data-currency="GBP" onclick="setCurrency('GBP')">GBP £</button>
+    <button class="currency-btn" data-currency="CAD" onclick="setCurrency('CAD')">CAD CA$</button>
+  </div>
+
+  <div class="pricing-grid reveal">
+
+    <!-- FREE -->
+    <div class="pricing-card">
+      <div class="pricing-name">Free</div>
+      <div class="pricing-price"><span id="price-free">$0</span><span class="pricing-cycle">forever</span></div>
+      <p class="pricing-desc">Everything a small team needs to stay in sync. No time limit. No catch.</p>
+      <div class="pricing-divider"></div>
+      <ul class="pricing-features">
+        <li><div class="feat-check"><svg viewBox="0 0 10 8" fill="none"><polyline points="1,4 3.5,6.5 9,1" stroke-width="1.5" stroke-linecap="round"/></svg></div>Full task tray &amp; real-time sync</li>
+        <li><div class="feat-check"><svg viewBox="0 0 10 8" fill="none"><polyline points="1,4 3.5,6.5 9,1" stroke-width="1.5" stroke-linecap="round"/></svg></div>Team collaboration</li>
+        <li><div class="feat-check"><svg viewBox="0 0 10 8" fill="none"><polyline points="1,4 3.5,6.5 9,1" stroke-width="1.5" stroke-linecap="round"/></svg></div>Push &amp; handoff bundles</li>
+        <li><div class="feat-check"><svg viewBox="0 0 10 8" fill="none"><polyline points="1,4 3.5,6.5 9,1" stroke-width="1.5" stroke-linecap="round"/></svg></div>Analytics dashboard</li>
+        <li><div class="feat-check"><svg viewBox="0 0 10 8" fill="none"><polyline points="1,4 3.5,6.5 9,1" stroke-width="1.5" stroke-linecap="round"/></svg></div>Mascot companion</li>
+        <li><div class="feat-check"><svg viewBox="0 0 10 8" fill="none"><polyline points="1,4 3.5,6.5 9,1" stroke-width="1.5" stroke-linecap="round"/></svg></div>CSV &amp; Markdown export</li>
+        <li><div class="feat-x"><svg viewBox="0 0 10 10" fill="none"><path d="M2,2 L8,8 M8,2 L2,8" stroke-width="1.5" stroke-linecap="round"/></svg></div><span style="opacity:.5">AI smart priority</span></li>
+        <li><div class="feat-x"><svg viewBox="0 0 10 10" fill="none"><path d="M2,2 L8,8 M8,2 L2,8" stroke-width="1.5" stroke-linecap="round"/></svg></div><span style="opacity:.5">Standup generator</span></li>
+      </ul>
+      <button class="pricing-btn pricing-btn-secondary">Start Free →</button>
+    </div>
+
+    <!-- PRO -->
+    <div class="pricing-card featured">
+      <div class="pricing-name">Pro ✦</div>
+      <div class="pricing-price"><span id="price-pro">$5.99</span><span class="pricing-cycle" id="price-cycle">/ month</span></div>
+      <p class="pricing-desc" id="pro-equiv">Billed monthly. Switch to annual and save ~20%.</p>
+      <div class="pricing-divider"></div>
+      <ul class="pricing-features">
+        <li><div class="feat-check"><svg viewBox="0 0 10 8" fill="none"><polyline points="1,4 3.5,6.5 9,1" stroke-width="1.5" stroke-linecap="round"/></svg></div>Everything in Free</li>
+        <li><div class="feat-ai-star">✦</div>AI smart priority</li>
+        <li><div class="feat-ai-star">✦</div>AI task breakdown</li>
+        <li><div class="feat-ai-star">✦</div>Natural language search</li>
+        <li><div class="feat-ai-star">✦</div>Daily standup generator</li>
+        <li><div class="feat-check"><svg viewBox="0 0 10 8" fill="none"><polyline points="1,4 3.5,6.5 9,1" stroke-width="1.5" stroke-linecap="round"/></svg></div>Priority support</li>
+        <li><div class="feat-check"><svg viewBox="0 0 10 8" fill="none"><polyline points="1,4 3.5,6.5 9,1" stroke-width="1.5" stroke-linecap="round"/></svg></div>Early access to new features</li>
+      </ul>
+      <button class="pricing-btn pricing-btn-primary">Get Pro →</button>
+    </div>
+
+    <!-- TEAM -->
+    <div class="pricing-card">
+      <div class="pricing-name">Team</div>
+      <div class="pricing-price"><span id="price-team">$12</span><span class="pricing-cycle">/ mo · per seat</span></div>
+      <p class="pricing-desc">For organisations that need admin controls, audit logs, and dedicated support.</p>
+      <div class="pricing-divider"></div>
+      <ul class="pricing-features">
+        <li><div class="feat-check"><svg viewBox="0 0 10 8" fill="none"><polyline points="1,4 3.5,6.5 9,1" stroke-width="1.5" stroke-linecap="round"/></svg></div>Everything in Pro</li>
+        <li><div class="feat-check"><svg viewBox="0 0 10 8" fill="none"><polyline points="1,4 3.5,6.5 9,1" stroke-width="1.5" stroke-linecap="round"/></svg></div>Admin dashboard &amp; member controls</li>
+        <li><div class="feat-check"><svg viewBox="0 0 10 8" fill="none"><polyline points="1,4 3.5,6.5 9,1" stroke-width="1.5" stroke-linecap="round"/></svg></div>SSO (Teams, Google)</li>
+        <li><div class="feat-check"><svg viewBox="0 0 10 8" fill="none"><polyline points="1,4 3.5,6.5 9,1" stroke-width="1.5" stroke-linecap="round"/></svg></div>Advanced analytics &amp; exports</li>
+        <li><div class="feat-check"><svg viewBox="0 0 10 8" fill="none"><polyline points="1,4 3.5,6.5 9,1" stroke-width="1.5" stroke-linecap="round"/></svg></div>Guest tray access (client view)</li>
+        <li><div class="feat-check"><svg viewBox="0 0 10 8" fill="none"><polyline points="1,4 3.5,6.5 9,1" stroke-width="1.5" stroke-linecap="round"/></svg></div>Dedicated Slack support</li>
+      </ul>
+      <button class="pricing-btn pricing-btn-secondary">Contact Sales →</button>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════ TESTIMONIALS ════════════ -->
+<section style="padding-top:0">
+  <div class="section-label">Loved by Teams</div>
+  <h2 class="section-title">What people<br>are <em>saying</em></h2>
+
+  <div class="testimonials-grid reveal">
+    <div class="testimonial-card">
+      <div class="testimonial-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+      <p class="testimonial-text">"WorkTray replaced our morning Slack thread. Everyone knows what's on everyone else's plate without a single message."</p>
+      <div class="testimonial-author">
+        <div class="author-avatar">SP</div>
+        <div><div class="author-name">Shreya P.</div><div class="author-title">Engineering Lead · Bangalore</div></div>
+      </div>
+    </div>
+    <div class="testimonial-card">
+      <div class="testimonial-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+      <p class="testimonial-text">"The handoff feature is insane. I finish my shift, bundle my tabs and notes, and my counterpart in Singapore picks up exactly where I left off."</p>
+      <div class="testimonial-author">
+        <div class="author-avatar">MK</div>
+        <div><div class="author-name">Marcus K.</div><div class="author-title">Senior Dev · Berlin</div></div>
+      </div>
+    </div>
+    <div class="testimonial-card">
+      <div class="testimonial-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+      <p class="testimonial-text">"The AI standup generator saves me 10 minutes every morning. It just knows what I did. That alone is worth the Pro subscription."</p>
+      <div class="testimonial-author">
+        <div class="author-avatar">AL</div>
+        <div><div class="author-name">Aisha L.</div><div class="author-title">Product Manager · London</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════ CTA ════════════ -->
+<div class="cta-section">
+  <h2>Ship faster.<br>Together.</h2>
+  <p>Join teams using WorkTray to stay in sync — without the meetings, the Slack threads, or the stale docs.</p>
+  <div class="cta-actions">
+    <a href="#" class="btn-primary">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      Add to Chrome — It's Free
+    </a>
+    <a href="#pricing" class="btn-secondary">View Pricing</a>
+  </div>
+  <span class="cta-note">No credit card · Works in 60 seconds · Free forever plan</span>
+</div>
+
+<!-- ════════════ FOOTER ════════════ -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <a href="#" class="nav-logo" style="text-decoration:none">
+        <div class="nav-logo-mark">
+          <span></span><span></span><span></span><span></span>
+        </div>
+        <span class="nav-wordmark">WorkTray</span>
+      </a>
+      <p>Your live work queue. Real-time team sync. Solo focus. Built for teams that actually ship.</p>
+    </div>
+    <div class="footer-col">
+      <h5>Product</h5>
+      <ul>
+        <li><a href="#features">Features</a></li>
+        <li><a href="#ai">AI Features</a></li>
+        <li><a href="#integrations">Integrations</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+        <li><a href="#">Changelog</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Company</h5>
+      <ul>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Blog</a></li>
+        <li><a href="#">Careers</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Legal</h5>
+      <ul>
+        <li><a href="#">Privacy Policy</a></li>
+        <li><a href="#">Terms of Service</a></li>
+        <li><a href="#">Cookie Policy</a></li>
+        <li><a href="#">Security</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 WorkTray. All rights reserved.</p>
+    <div class="footer-links">
+      <a href="#">Twitter</a>
+      <a href="#">GitHub</a>
+      <a href="#">Discord</a>
+      <a href="#">Status</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ── Pricing data ── */
+const prices = {
+  USD: { symbol: '$',    pro_m: '5.99',  pro_a: '4.79',  team_m: '12',   team_a: '9.60'  },
+  INR: { symbol: '₹',   pro_m: '499',   pro_a: '399',   team_m: '999',  team_a: '799'   },
+  EUR: { symbol: '€',   pro_m: '5.49',  pro_a: '4.39',  team_m: '10.99',team_a: '8.79'  },
+  GBP: { symbol: '£',   pro_m: '4.99',  pro_a: '3.99',  team_m: '9.99', team_a: '7.99'  },
+  CAD: { symbol: 'CA$', pro_m: '7.99',  pro_a: '6.39',  team_m: '15.99',team_a: '12.79' },
+};
+
+let currentCurrency = 'USD';
+let currentInterval = 'monthly';
+
+function setCurrency(c) {
+  currentCurrency = c;
+  document.querySelectorAll('.currency-btn').forEach(b => b.classList.toggle('active', b.dataset.currency === c));
+  updatePrices();
+}
+
+function setInterval2(i) {
+  currentInterval = i;
+  document.querySelectorAll('.interval-btn').forEach(b => b.classList.toggle('active', b.dataset.interval === i));
+  updatePrices();
+}
+
+function updatePrices() {
+  const p = prices[currentCurrency];
+  const isAnnual = currentInterval === 'annual';
+  const proPrice = isAnnual ? p.pro_a : p.pro_m;
+  const teamPrice = isAnnual ? p.team_a : p.team_m;
+
+  document.getElementById('price-free').textContent = p.symbol + '0';
+  document.getElementById('price-pro').textContent = p.symbol + proPrice;
+  document.getElementById('price-team').textContent = p.symbol + teamPrice;
+  document.getElementById('price-cycle').textContent = isAnnual ? '/ mo · billed annually' : '/ month';
+  document.getElementById('pro-equiv').textContent = isAnnual
+    ? `Billed annually (${p.symbol}${(parseFloat(proPrice)*12).toFixed(2)}/yr). Save ~20% vs monthly.`
+    : 'Billed monthly. Switch to annual and save ~20%.';
+}
+
+/* ── Scroll reveal ── */
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      observer.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.1 });
+reveals.forEach(el => observer.observe(el));
+
+/* ── Nav scroll effect ── */
+window.addEventListener('scroll', () => {
+  document.querySelector('nav').style.borderBottomColor = window.scrollY > 40 ? '#32323f' : '#252530';
+});
+</script>
+</body>
+</html>
