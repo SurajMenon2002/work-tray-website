@@ -32,7 +32,7 @@ const mascotStates = {
   idle: {
     body: 'assets/front-idle.png',
     eyes: 'assets/neutral-dot.png',
-    speech: '"Hi! I'm Tray. I'll keep your tasks in check while you browse."'
+    speech: '"Hi! I\'m Tray. I\'ll keep your tasks in check while you browse."'
   },
   thinking: {
     body: 'assets/thinking.png',
@@ -48,6 +48,11 @@ const mascotStates = {
     body: 'assets/front-happy.png',
     eyes: 'assets/happy-arc.png',
     speech: '"You finished the task! That\'s what I\'m talking about. Keep it up! 🎉"'
+  },
+  rest: {
+    body: 'assets/side-rest.png',
+    eyes: 'assets/sleep-closed.png',
+    speech: '"Zzz… I\'ll be right here when you need me."'
   }
 };
 

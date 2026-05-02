@@ -253,10 +253,10 @@ ul { list-style: none; }
   white-space: nowrap;
   animation: floatTag 4s ease-in-out infinite;
 }
-.tag-1 { top: 20%; left: 8%; animation-delay: 0s; }
-.tag-2 { top: 35%; right: 10%; animation-delay: 1s; }
-.tag-3 { bottom: 30%; left: 5%; animation-delay: 2s; }
-.tag-4 { bottom: 20%; right: 8%; animation-delay: 0.5s; }
+.tag-1 { top: 15%; right: 5%; animation-delay: 0s; }
+.tag-2 { top: 28%; right: 6%; animation-delay: 1s; }
+.tag-3 { bottom: 35%; right: 3%; animation-delay: 2s; }
+.tag-4 { bottom: 25%; right: 5%; animation-delay: 0.5s; }
 
 @keyframes floatTag {
   0%, 100% { transform: translateY(0px) rotate(-1deg); }
@@ -536,8 +536,8 @@ ul { list-style: none; }
 .uc-scenario {
   display: grid; grid-template-columns: 240px 1fr; gap: 48px; align-items: start;
 }
-.uc-mascot-wrap { text-align: center; }
-.uc-mascot { width: 180px; margin: 0 auto; filter: drop-shadow(0 8px 24px rgba(245,158,11,0.2)); animation: mascotFloat 3s ease-in-out infinite; }
+.uc-mascot-wrap { text-align: center; display: flex; align-items: center; justify-content: center; min-height: 200px; }
+.uc-mascot { width: 180px; height: 180px; margin: 0 auto; object-fit: contain; filter: drop-shadow(0 8px 24px rgba(245,158,11,0.2)); animation: mascotFloat 3s ease-in-out infinite; }
 .uc-content h3 {
   font-family: var(--font-display);
   font-size: 1.8rem;
@@ -594,8 +594,10 @@ ul { list-style: none; }
 }
 .mascot-body { width: 160px; height: 160px; object-fit: contain; animation: mascotFloat 3s ease-in-out infinite; }
 .mascot-eyes {
-  position: absolute; top: 42%; left: 50%; transform: translate(-50%,-50%);
+  position: absolute; top: 38%; left: 50%; transform: translate(-50%,-50%);
   width: 60px; height: 30px; object-fit: contain;
+  pointer-events: none;
+  z-index: 2;
 }
 .stage-speech {
   font-size: 0.9rem; color: var(--text-2); font-style: italic;
