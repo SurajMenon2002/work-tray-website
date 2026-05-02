@@ -1,0 +1,16 @@
+{
+  "name": "worktray-website",
+  "version": "1.0.0",
+  "description": "WorkTray — AI-powered browser extension marketing website",
+  "scripts": {
+    "dev": "npx serve public -p 3000",
+    "build": "echo 'Static site — no build step needed. Deploy the /public folder.'",
+    "preview": "npx serve public -p 4000"
+  },
+  "keywords": ["worktray", "chrome-extension", "productivity", "ai"],
+  "author": "WorkTray",
+  "license": "MIT",
+  "devDependencies": {
+    "serve": "^14.0.0"
+  }
+}

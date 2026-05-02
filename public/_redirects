@@ -1,0 +1,5 @@
+# Redirect all SPA routes to index (if needed)
+# /app/*    /index.html    200
+
+# Force HTTPS (handled by Cloudflare automatically, but listed for clarity)
+# http://worktray.app/*    https://worktray.app/:splat    301
