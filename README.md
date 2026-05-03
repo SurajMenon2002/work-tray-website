@@ -1,5 +1,5 @@
 # WorkTray Website
-
+https://worktray.pages.dev/
 Marketing website for the WorkTray Chrome extension — built as a pure static site (HTML + CSS + JS), optimized for Cloudflare Pages.
 
 ## 📁 Structure
