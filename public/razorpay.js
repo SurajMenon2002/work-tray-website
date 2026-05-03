@@ -124,13 +124,12 @@ const WorkTrayPay = (() => {
 
   /**
    * Create a Razorpay order on the backend.
-   * POST /api/payments/create-order
+   * POST /payments/create-order
    */
   async function createOrder(planKey) {
     const plan = CONFIG.PLANS[planKey];
     if (!plan) throw new Error(`Unknown plan: "${planKey}"`);
 
-    // FIX: server registers at /payments/create-order (no /api prefix).
     const response = await fetch(`${CONFIG.API_BASE}/payments/create-order`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -151,10 +150,9 @@ const WorkTrayPay = (() => {
 
   /**
    * Verify payment on the backend after successful checkout.
-   * POST /api/payments/verify
+   * POST /payments/verify
    */
   async function verifyPayment(payload) {
-    // FIX: server registers at /payments/verify (no /api prefix).
     const response = await fetch(`${CONFIG.API_BASE}/payments/verify`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
