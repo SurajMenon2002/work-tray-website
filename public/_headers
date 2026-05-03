@@ -25,4 +25,4 @@
 # but the script-src CSP on the main site must allow checkout.razorpay.com.
 # Add a permissive CSP only on pages that load the Razorpay SDK.
 /payment
-  Content-Security-Policy: default-src 'self'; script-src 'self' https://checkout.razorpay.com; connect-src 'self' https://worktray-api.vercel.app https://api.razorpay.com; frame-src https://api.razorpay.com https://checkout.razorpay.com; img-src 'self' data: https:; style-src 'self' 'unsafe-inline'
+  Content-Security-Policy: default-src 'self'; script-src 'self' https://checkout.razorpay.com https://cdn.razorpay.com 'unsafe-inline'; connect-src 'self' https://worktray-api.vercel.app https://api.razorpay.com https://cdn.razorpay.com; frame-src https://api.razorpay.com https://checkout.razorpay.com; img-src 'self' data: https:; style-src 'self' 'unsafe-inline'
