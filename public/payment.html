@@ -121,7 +121,11 @@ const extId     = params.get('ext');
 const rawData   = params.get('data');
 let   orderData = null;
 
-try { orderData = JSON.parse(atob(rawData)); }
+try {
+  // FIX: popup.js encodes with encodeURIComponent → unescape → btoa (Unicode-safe).
+  // We must reverse: atob → escape → decodeURIComponent.
+  orderData = JSON.parse(decodeURIComponent(escape(atob(rawData))));
+}
 catch (e) {
   showState('error');
   document.getElementById('error-msg').textContent =
@@ -165,6 +169,7 @@ function openCheckout() {
       showState('loading');
       document.querySelector('[data-state="loading"] h1').textContent = 'Verifying payment…';
       try {
+        // NOTE: server registers at /payments/verify (no /api prefix)
         const r = await fetch(`${SERVER_URL}/payments/verify`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },

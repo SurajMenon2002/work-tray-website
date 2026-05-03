@@ -14,10 +14,15 @@
 /*.js
   Cache-Control: public, max-age=86400
 
-# Allow the WorkTray Chrome extension to send messages from this page back to the extension.
-# The Access-Control-Allow-Origin for chrome-extension:// origins is needed so that
-# chrome.runtime.sendMessage(extId, ...) called from this page works correctly.
+# Allow the WorkTray Chrome extension to send messages from the payment page back to the extension.
 /payment
   Access-Control-Allow-Origin: *
   Access-Control-Allow-Methods: GET, POST, OPTIONS
   Access-Control-Allow-Headers: Content-Type, Authorization
+
+# FIX: The web page (nestly-60q.pages.dev) also calls the Vercel API directly via razorpay.js.
+# The actual CORS headers for /payments/* are handled by the Vercel server (server.js),
+# but the script-src CSP on the main site must allow checkout.razorpay.com.
+# Add a permissive CSP only on pages that load the Razorpay SDK.
+/payment
+  Content-Security-Policy: default-src 'self'; script-src 'self' https://checkout.razorpay.com; connect-src 'self' https://worktray-api.vercel.app https://api.razorpay.com; frame-src https://api.razorpay.com https://checkout.razorpay.com; img-src 'self' data: https:; style-src 'self' 'unsafe-inline'

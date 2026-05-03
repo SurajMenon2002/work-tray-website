@@ -130,7 +130,8 @@ const WorkTrayPay = (() => {
     const plan = CONFIG.PLANS[planKey];
     if (!plan) throw new Error(`Unknown plan: "${planKey}"`);
 
-    const response = await fetch(`${CONFIG.API_BASE}/api/payments/create-order`, {
+    // FIX: server registers at /payments/create-order (no /api prefix).
+    const response = await fetch(`${CONFIG.API_BASE}/payments/create-order`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -153,7 +154,8 @@ const WorkTrayPay = (() => {
    * POST /api/payments/verify
    */
   async function verifyPayment(payload) {
-    const response = await fetch(`${CONFIG.API_BASE}/api/payments/verify`, {
+    // FIX: server registers at /payments/verify (no /api prefix).
+    const response = await fetch(`${CONFIG.API_BASE}/payments/verify`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload),
