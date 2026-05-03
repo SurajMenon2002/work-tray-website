@@ -13,3 +13,11 @@
 
 /*.js
   Cache-Control: public, max-age=86400
+
+# Allow the WorkTray Chrome extension to send messages from this page back to the extension.
+# The Access-Control-Allow-Origin for chrome-extension:// origins is needed so that
+# chrome.runtime.sendMessage(extId, ...) called from this page works correctly.
+/payment
+  Access-Control-Allow-Origin: *
+  Access-Control-Allow-Methods: GET, POST, OPTIONS
+  Access-Control-Allow-Headers: Content-Type, Authorization

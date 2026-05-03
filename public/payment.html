@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WorkTray — Secure Checkout</title>
+  <!--
+    HOST: nestly-60q.pages.dev/payment  (Cloudflare Pages — a normal website)
+    This is NOT an extension page, so Chrome's extension CSP does NOT apply here.
+    The Razorpay SDK loads freely from checkout.razorpay.com.
+
+    Flow:
+      1. popup.js opens:
+           https://nestly-60q.pages.dev/payment?data=<base64>&ext=<extensionId>
+      2. This page loads Razorpay, opens the checkout popup.
+      3. On result, sends chrome.runtime.sendMessage(extId, ...) back to the extension.
+         Falls back to BroadcastChannel if sendMessage isn't available.
+  -->
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0d0d0f; --bg2: #141418; --border: #2a2a36;
+      --text: #e8e8f0; --text2: #9898b0;
+      --accent: #e8ff47; --green: #44ff88; --red: #ff4444;
+    }
+    body {
+      background: var(--bg); color: var(--text);
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      min-height: 100vh; display: flex; align-items: center; justify-content: center;
+    }
+    .card {
+      background: var(--bg2); border: 1px solid var(--border); border-radius: 18px;
+      padding: 40px 48px; text-align: center; max-width: 380px; width: 90vw;
+      box-shadow: 0 32px 80px rgba(0,0,0,.6);
+    }
+    .brand { font-size: 22px; font-weight: 800; color: var(--accent); margin-bottom: 20px; }
+    h1 { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+    .sub { font-size: 14px; color: var(--text2); margin-bottom: 24px; line-height: 1.5; }
+    .spinner {
+      width: 36px; height: 36px; border: 3px solid var(--border);
+      border-top-color: var(--accent); border-radius: 50%;
+      animation: spin .7s linear infinite; margin: 0 auto 20px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .icon { font-size: 44px; margin-bottom: 14px; }
+    .btn {
+      display: inline-block; margin-top: 18px; padding: 10px 26px;
+      border-radius: 8px; border: none; font-size: 14px; font-weight: 700;
+      cursor: pointer; transition: opacity .15s;
+    }
+    .btn:hover { opacity: .85; }
+    .btn-primary  { background: var(--accent); color: #0d0d0f; }
+    .btn-secondary { background: var(--border); color: var(--text); margin-left: 8px; }
+    .pid { font-size: 11px; color: var(--text2); font-family: monospace; margin-top: 8px; word-break: break-all; }
+    [data-state] { display: none; }
+    [data-state].active { display: block; }
+  </style>
+</head>
+<body>
+<div class="card">
+  <div class="brand">WorkTray</div>
+
+  <div data-state="loading" class="active">
+    <div class="spinner"></div>
+    <h1>Preparing checkout…</h1>
+    <p class="sub">Setting up your secure payment session.</p>
+  </div>
+
+  <div data-state="ready">
+    <div class="icon">⚡</div>
+    <h1>Opening payment…</h1>
+    <p class="sub">The Razorpay window should appear now.<br>Complete your payment there.</p>
+  </div>
+
+  <div data-state="success">
+    <div class="icon">🎉</div>
+    <h1 style="color:var(--green)">Payment Successful!</h1>
+    <p class="sub">WorkTray Pro is now active.<br>This tab will close automatically.</p>
+    <p class="pid" id="pid-success"></p>
+    <button class="btn btn-primary" onclick="window.close()">Close Tab</button>
+  </div>
+
+  <div data-state="error">
+    <div class="icon">❌</div>
+    <h1 style="color:var(--red)">Payment Failed</h1>
+    <p class="sub" id="error-msg">Something went wrong. Please try again.</p>
+    <button class="btn btn-primary" onclick="retry()">Try Again</button>
+    <button class="btn btn-secondary" onclick="window.close()">Cancel</button>
+  </div>
+
+  <div data-state="verify-failed">
+    <div class="icon">⚠️</div>
+    <h1 style="color:orange">Verification Issue</h1>
+    <p class="sub">Payment may have gone through but we couldn't confirm it.<br>Contact support with the ID below.</p>
+    <p class="pid" id="pid-verify"></p>
+    <button class="btn btn-secondary" onclick="window.close()">Close Tab</button>
+  </div>
+
+  <div data-state="dismissed">
+    <div class="icon">👋</div>
+    <h1>Checkout Closed</h1>
+    <p class="sub">No charge was made.<br>You can retry whenever you're ready.</p>
+    <button class="btn btn-primary" onclick="retry()">Try Again</button>
+    <button class="btn btn-secondary" onclick="window.close()">Close Tab</button>
+  </div>
+</div>
+
+<script>
+'use strict';
+const SERVER_URL = 'https://worktray-api.vercel.app';
+
+function showState(name) {
+  document.querySelectorAll('[data-state]').forEach(el =>
+    el.classList.toggle('active', el.dataset.state === name));
+}
+
+// Parse URL params
+const params    = new URLSearchParams(location.search);
+const extId     = params.get('ext');
+const rawData   = params.get('data');
+let   orderData = null;
+
+try { orderData = JSON.parse(atob(rawData)); }
+catch (e) {
+  showState('error');
+  document.getElementById('error-msg').textContent =
+    'Invalid payment session. Close this tab and click Upgrade again.';
+}
+
+// Send result back to the extension
+function sendResult(type, payload) {
+  // Method 1: direct chrome.runtime.sendMessage with extension ID
+  if (extId && typeof chrome !== 'undefined' && chrome.runtime?.sendMessage) {
+    try {
+      chrome.runtime.sendMessage(extId, { type, payload }, () => void chrome.runtime?.lastError);
+      return;
+    } catch (e) { /* fall through */ }
+  }
+  // Method 2: BroadcastChannel — background.js listens on same channel name
+  try {
+    const bc = new BroadcastChannel('worktray_payment');
+    bc.postMessage({ type, payload });
+    bc.close();
+  } catch (e) { console.warn('[payment] Could not send result:', e.message); }
+}
+
+function openCheckout() {
+  if (!orderData) return;
+  showState('ready');
+
+  const { key_id, order_id, amount, currency, description,
+          user_name, user_email, token, plan, interval, userCurrency } = orderData;
+
+  const rzp = new Razorpay({
+    key:         key_id,
+    amount,
+    currency,
+    name:        'WorkTray',
+    description: description || 'WorkTray Pro',
+    image:       'https://nestly-60q.pages.dev/assets/worktray-logo.png',
+    order_id,
+
+    handler: async function (response) {
+      showState('loading');
+      document.querySelector('[data-state="loading"] h1').textContent = 'Verifying payment…';
+      try {
+        const r = await fetch(`${SERVER_URL}/payments/verify`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+          body: JSON.stringify({
+            razorpay_order_id:   response.razorpay_order_id,
+            razorpay_payment_id: response.razorpay_payment_id,
+            razorpay_signature:  response.razorpay_signature,
+            plan: plan || 'pro',
+          }),
+        });
+        if (!r.ok) { const e = await r.json().catch(()=>({})); throw new Error(e.error || `${r.status}`); }
+        const result = await r.json();
+        if (!result.success) throw new Error('Unexpected server response');
+
+        sendResult('PAYMENT_SUCCESS', {
+          razorpay_payment_id: response.razorpay_payment_id,
+          plan: plan || 'pro', interval: interval || 'monthly', currency: userCurrency || 'INR',
+        });
+        showState('success');
+        document.getElementById('pid-success').textContent = 'Payment ID: ' + response.razorpay_payment_id;
+        setTimeout(() => window.close(), 4000);
+
+      } catch (err) {
+        sendResult('PAYMENT_VERIFY_FAILED', { razorpay_payment_id: response.razorpay_payment_id, error: err.message });
+        showState('verify-failed');
+        document.getElementById('pid-verify').textContent = 'Payment ID: ' + response.razorpay_payment_id;
+      }
+    },
+
+    prefill:  { name: user_name || '', email: user_email || '' },
+    notes:    { plan: plan || 'pro', product: 'WorkTray' },
+    theme:    { color: '#e8ff47', backdrop_color: '#0a0a0f' },
+    modal: {
+      backdropclose: false, escape: true,
+      ondismiss: function () { sendResult('PAYMENT_DISMISSED', {}); showState('dismissed'); },
+    },
+  });
+
+  rzp.on('payment.failed', function (response) {
+    const desc = response.error?.description || 'Payment could not be processed.';
+    sendResult('PAYMENT_FAILED', { error: desc });
+    showState('error');
+    document.getElementById('error-msg').textContent = desc;
+  });
+
+  rzp.open();
+}
+
+function retry() { openCheckout(); }
+
+if (orderData) setTimeout(openCheckout, 350);
+</script>
+</body>
+</html>

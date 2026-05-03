@@ -1,4 +1,4 @@
-/* WorkTray Website — main.js */
+/* Nestly Website — main.js */
 
 // ── NAV SCROLL ────────────────────────────────────────
 const nav = document.getElementById('nav');
@@ -32,7 +32,7 @@ const mascotStates = {
   idle: {
     body: 'assets/front-idle.png',
     eyes: 'assets/neutral-dot.png',
-    speech: '"Hi! I\'m Tray. I\'ll keep your tasks in check while you browse."'
+    speech: '"Hi! I\'m Puff. I\'ll keep your tasks in check while you browse."'
   },
   thinking: {
     body: 'assets/thinking.png',
