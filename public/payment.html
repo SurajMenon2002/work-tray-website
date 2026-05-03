@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>WorkTray — Secure Checkout</title>
+  <title>Nestly — Secure Checkout</title>
   <!--
     HOST: nestly-60q.pages.dev/payment  (Cloudflare Pages — a normal website)
     This is NOT an extension page, so Chrome's extension CSP does NOT apply here.
@@ -59,7 +59,7 @@
 </head>
 <body>
 <div class="card">
-  <div class="brand">WorkTray</div>
+  <div class="brand">Nestly</div>
 
   <div data-state="loading" class="active">
     <div class="spinner"></div>
@@ -76,7 +76,7 @@
   <div data-state="success">
     <div class="icon">🎉</div>
     <h1 style="color:var(--green)">Payment Successful!</h1>
-    <p class="sub">WorkTray Pro is now active.<br>This tab will close automatically.</p>
+    <p class="sub">Nestly Pro is now active.<br>This tab will close automatically.</p>
     <p class="pid" id="pid-success"></p>
     <button class="btn btn-primary" onclick="window.close()">Close Tab</button>
   </div>
@@ -160,8 +160,8 @@ function openCheckout() {
     key:         key_id,
     amount,
     currency,
-    name:        'WorkTray',
-    description: description || 'WorkTray Pro',
+    name:        'Nestly',
+    description: description || 'Nestly Pro',
     image:       'https://nestly-60q.pages.dev/assets/worktray-logo.png',
     order_id,
 
@@ -200,7 +200,7 @@ function openCheckout() {
     },
 
     prefill:  { name: user_name || '', email: user_email || '' },
-    notes:    { plan: plan || 'pro', product: 'WorkTray' },
+    notes:    { plan: plan || 'pro', product: 'Nestly' },
     theme:    { color: '#e8ff47', backdrop_color: '#0a0a0f' },
     modal: {
       backdropclose: false, escape: true,
