@@ -130,9 +130,16 @@ const WorkTrayPay = (() => {
     const plan = CONFIG.PLANS[planKey];
     if (!plan) throw new Error(`Unknown plan: "${planKey}"`);
 
+    // Try to get auth token from localStorage (set by extension or login flow)
+    const headers = { 'Content-Type': 'application/json' };
+    const storedToken = localStorage.getItem('nestly_auth_token');
+    if (storedToken) {
+      headers['Authorization'] = `Bearer ${storedToken}`;
+    }
+
     const response = await fetch(`${CONFIG.API_BASE}/payments/create-order`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers,
       body: JSON.stringify({
         plan: planKey,
         amount: plan.amount,
@@ -153,18 +160,27 @@ const WorkTrayPay = (() => {
    * POST /payments/verify
    */
   async function verifyPayment(payload) {
+    // Try to get auth token from localStorage (set by extension or login flow)
+    const headers = { 'Content-Type': 'application/json' };
+    const storedToken = localStorage.getItem('nestly_auth_token');
+    if (storedToken) {
+      headers['Authorization'] = `Bearer ${storedToken}`;
+    }
+
     const response = await fetch(`${CONFIG.API_BASE}/payments/verify`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers,
       body: JSON.stringify(payload),
     });
 
-    if (!response.ok) {
-      const errBody = await response.text().catch(() => '');
-      throw new Error(`Payment verification failed (${response.status}): ${errBody}`);
+    // Read the response body first, then check success
+    const result = await response.json().catch(() => ({}));
+    // Accept success even if HTTP status is not OK (e.g. 500 with success:true body)
+    if (!result.success) {
+      throw new Error(result.error || `Verify returned ${response.status}`);
     }
 
-    return response.json();
+    return result;
   }
 
   // ── Razorpay Checkout Handler ──────────────────────
