@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Privacy Policy — Nestly</title>
+  <link rel="icon" href="/assets/worktray-logo.png" type="image/png" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #0f0f13;
+      color: #e2e2e8;
+      line-height: 1.7;
+    }
+    header {
+      background: #17171f;
+      border-bottom: 1px solid #2a2a36;
+      padding: 18px 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    header img { width: 32px; height: 32px; }
+    header a {
+      font-size: 20px;
+      font-weight: 700;
+      color: #fff;
+      text-decoration: none;
+      letter-spacing: -0.3px;
+    }
+    .container {
+      max-width: 760px;
+      margin: 48px auto;
+      padding: 0 24px 80px;
+    }
+    h1 {
+      font-size: 32px;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 8px;
+      letter-spacing: -0.5px;
+    }
+    .meta {
+      color: #888;
+      font-size: 14px;
+      margin-bottom: 40px;
+    }
+    h2 {
+      font-size: 18px;
+      font-weight: 700;
+      color: #c8c8d4;
+      margin: 36px 0 12px;
+    }
+    p { color: #a8a8b8; margin-bottom: 14px; }
+    ul { color: #a8a8b8; margin: 0 0 14px 22px; }
+    li { margin-bottom: 6px; }
+    a { color: #7b7fff; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .card {
+      background: #17171f;
+      border: 1px solid #2a2a36;
+      border-radius: 12px;
+      padding: 20px 24px;
+      margin-top: 40px;
+    }
+    .card p { margin: 0; color: #888; font-size: 14px; }
+    .card strong { color: #c8c8d4; }
+  </style>
+</head>
+<body>
+
+<header>
+  <img src="/assets/worktray-logo.png" alt="Nestly logo" />
+  <a href="/">Nestly</a>
+</header>
+
+<div class="container">
+  <h1>Privacy Policy</h1>
+  <p class="meta">Effective date: May 6, 2026 &nbsp;·&nbsp; Last updated: May 6, 2026</p>
+
+  <p>
+    Nestly ("we", "our", or "us") is a Chrome extension that helps teams track tasks in real time
+    and generate AI-powered standups. This Privacy Policy explains what data we collect, how we
+    store it, and what we do (and don't do) with it.
+  </p>
+
+  <h2>1. What data we collect</h2>
+  <p>When you create an account and use Nestly, we collect:</p>
+  <ul>
+    <li><strong>Account information</strong> — your email address, used for authentication.</li>
+    <li><strong>Task data</strong> — the tasks you create, edit, assign, and complete inside the extension.</li>
+    <li><strong>Team membership</strong> — the team(s) you belong to and your display name within each team.</li>
+    <li><strong>Usage activity</strong> — timestamps of task updates, completion events, and standup generations, used to power real-time sync and AI features.</li>
+    <li><strong>Payment records</strong> — if you subscribe to a paid plan, we store a record of your subscription status. We do not store full card numbers; payment processing is handled by Razorpay.</li>
+  </ul>
+  <p>We do <strong>not</strong> collect browsing history, page content, keystrokes, or any data from websites you visit.</p>
+
+  <h2>2. How we store your data</h2>
+  <p>
+    All user data — accounts, tasks, team records, and subscription status — is stored in
+    <strong>Supabase</strong>, a managed PostgreSQL database service. Data is encrypted in transit
+    (TLS) and at rest. Supabase infrastructure is hosted on AWS in the <code>us-east-1</code> region.
+  </p>
+  <p>
+    AI features (standup generation, smart suggestions) send your task descriptions to our
+    backend server at <code>worktray-api.vercel.app</code>, which proxies requests to DeepSeek's
+    API. Your task data is used solely to generate the AI response and is not stored by our server
+    or by DeepSeek beyond the duration of the request.
+  </p>
+
+  <h2>3. How we use your data</h2>
+  <ul>
+    <li>To provide real-time task syncing across your team.</li>
+    <li>To authenticate you and enforce your subscription plan.</li>
+    <li>To generate AI-powered standup summaries and task suggestions.</li>
+    <li>To send in-extension notifications about task updates and handoffs.</li>
+  </ul>
+  <p>We do <strong>not</strong> sell your data to advertisers or any third parties. We do not use your data to train AI models.</p>
+
+  <h2>4. Third-party services</h2>
+  <ul>
+    <li><strong>Supabase</strong> — database and authentication (<a href="https://supabase.com/privacy" target="_blank" rel="noopener">Supabase Privacy Policy</a>)</li>
+    <li><strong>Razorpay</strong> — payment processing (<a href="https://razorpay.com/privacy/" target="_blank" rel="noopener">Razorpay Privacy Policy</a>)</li>
+    <li><strong>DeepSeek</strong> — AI inference for standup and suggestion features (<a href="https://www.deepseek.com/privacy" target="_blank" rel="noopener">DeepSeek Privacy Policy</a>)</li>
+    <li><strong>Vercel</strong> — backend server hosting (<a href="https://vercel.com/legal/privacy-policy" target="_blank" rel="noopener">Vercel Privacy Policy</a>)</li>
+  </ul>
+
+  <h2>5. Data retention</h2>
+  <p>
+    We retain your data for as long as your account is active. If you delete your account,
+    your personal data and tasks are permanently deleted from our database within 30 days.
+    Anonymised aggregate analytics (e.g. total active teams) may be retained indefinitely.
+  </p>
+
+  <h2>6. Your rights</h2>
+  <p>You may at any time:</p>
+  <ul>
+    <li>Request a copy of the data we hold about you.</li>
+    <li>Ask us to correct inaccurate data.</li>
+    <li>Request deletion of your account and all associated data.</li>
+  </ul>
+  <p>To exercise any of these rights, email us at <a href="mailto:nestlyq.ai@gmail.com">nestlyq.ai@gmail.com</a>.</p>
+
+  <h2>7. Changes to this policy</h2>
+  <p>
+    We may update this Privacy Policy from time to time. When we do, we'll update the "Last updated"
+    date at the top of this page. Continued use of Nestly after any changes constitutes your
+    acceptance of the updated policy.
+  </p>
+
+  <div class="card">
+    <p><strong>Questions?</strong> Contact us at <a href="mailto:nestlyq.ai@gmail.com">nestlyq.ai@gmail.com</a>.</p>
+  </div>
+</div>
+
+</body>
+</html>
