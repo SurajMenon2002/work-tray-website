@@ -172,3 +172,24 @@ setInterval(() => {
   stateIdx = (stateIdx + 1) % stateOrder.length;
   setMascotState(stateOrder[stateIdx]);
 }, 4000);
+
+// ── SCROLL REVEAL FOR NEW SECTIONS ───────────────────
+const newRevealEls = document.querySelectorAll(
+  '.ai-feature-card, .testimonial-card, .fi-item, .acs-chip'
+);
+const newRevealObs = new IntersectionObserver((entries) => {
+  entries.forEach((entry, i) => {
+    if (entry.isIntersecting) {
+      entry.target.style.animationDelay = `${(i % 5) * 0.08}s`;
+      entry.target.classList.add('revealed');
+      newRevealObs.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+
+newRevealEls.forEach(el => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(18px)';
+  el.style.transition = 'opacity 0.45s ease, transform 0.45s ease';
+  newRevealObs.observe(el);
+});

@@ -5,16 +5,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Nestly — Your AI-Powered Browser Sidekick</title>
   <meta name="description" content="Nestly is the Chrome extension that keeps your tasks, AI summaries, and daily standup right inside your browser. Meet Puff — your always-on productivity mascot." />
-  <meta property="og:title" content="Nestly — Your AI-Powered Browser Sidekick" />
-  <meta property="og:description" content="Smart task capture, AI priority suggestions, daily standups, and a cute robot mascot who lives in your browser." />
-  <meta property="og:image" content="assets/hero-mascot.png" />
   <link rel="icon" href="assets/worktray-logo.png" type="image/png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style-v2.css" />
 </head>
 <body>
+
+  <!-- EARLY ACCESS BANNER -->
+  <div class="early-banner" id="earlyBanner">
+    <span class="early-badge">v1.0 BETA</span>
+    <span>Nestly is in early access — we're shipping fast. <a href="#feedback">Share feedback</a> and help shape what's next. 🚀</span>
+    <button class="early-close" onclick="this.parentElement.style.display='none'">✕</button>
+  </div>
 
   <!-- NAV -->
   <nav class="nav" id="nav">
@@ -22,13 +27,15 @@
       <a href="#" class="nav-logo">
         <img src="assets/worktray-logo.png" alt="Nestly" class="nav-logo-img" />
         <span class="nav-logo-text">Nestly</span>
+        <span class="nav-version-badge">Beta</span>
       </a>
       <ul class="nav-links">
         <li><a href="#features">Features</a></li>
         <li><a href="#usecases">Use Cases</a></li>
+        <li><a href="#ai-features">AI</a></li>
         <li><a href="#mascot">Meet Puff</a></li>
-        <li><a href="#integrations">Integrations</a></li>
         <li><a href="#pricing">Pricing</a></li>
+        <li><a href="#feedback">Feedback</a></li>
       </ul>
       <a href="#pricing" class="nav-cta">Get Extension</a>
       <button class="nav-burger" id="navBurger" aria-label="Menu">
@@ -42,9 +49,10 @@
     <ul>
       <li><a href="#features" class="mm-link">Features</a></li>
       <li><a href="#usecases" class="mm-link">Use Cases</a></li>
+      <li><a href="#ai-features" class="mm-link">AI Features</a></li>
       <li><a href="#mascot" class="mm-link">Meet Puff</a></li>
-      <li><a href="#integrations" class="mm-link">Integrations</a></li>
       <li><a href="#pricing" class="mm-link">Pricing</a></li>
+      <li><a href="#feedback" class="mm-link">Feedback</a></li>
     </ul>
     <a href="#pricing" class="btn-primary mm-link">Get Extension →</a>
   </div>
@@ -64,7 +72,7 @@
     <div class="hero-content">
       <div class="hero-badge">
         <span class="badge-dot"></span>
-        Now Available for Chrome
+        v1.0 Now Available for Chrome
       </div>
       <h1 class="hero-h1">
         Your Browser<br />
@@ -73,6 +81,10 @@
       <p class="hero-sub">
         Nestly is the AI-powered Chrome extension that captures tasks from any page, prioritises your day, writes your standups, and sends a little robot friend to keep you on track.
       </p>
+      <div class="hero-v1-note">
+        <span class="v1-icon">🚧</span>
+        <span>This is an initial release — <strong>more features, integrations &amp; AI upgrades are on the way.</strong> We ship weekly based on your feedback.</span>
+      </div>
       <div class="hero-actions">
         <a href="#pricing" class="btn-primary btn-lg">
           <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
@@ -91,46 +103,26 @@
     <div class="hero-visual">
       <div class="hero-mascot-wrap">
         <img src="assets/hero-mascot.png" alt="Nestly mascot with notepad" class="hero-mascot" />
-        <div class="mascot-bubble bubble-1">
-          <strong>3 tasks due today</strong><br/>
-          Want me to prioritise?
-        </div>
-        <div class="mascot-bubble bubble-2">
-          <strong>Standup generated!</strong> ✨
-        </div>
+        <div class="mascot-bubble bubble-1"><strong>3 tasks due today</strong><br/>Want me to prioritise?</div>
+        <div class="mascot-bubble bubble-2"><strong>Standup generated!</strong> ✨</div>
       </div>
     </div>
   </section>
 
-  <!-- SCROLL TICKER -->
+  <!-- TICKER -->
   <div class="ticker-wrap">
     <div class="ticker">
-      <span>Smart Task Capture</span>
-      <span class="ticker-dot">◆</span>
-      <span>AI Priority Suggestions</span>
-      <span class="ticker-dot">◆</span>
-      <span>Daily Standup Generator</span>
-      <span class="ticker-dot">◆</span>
-      <span>Task Decomposition</span>
-      <span class="ticker-dot">◆</span>
-      <span>Natural Language Search</span>
-      <span class="ticker-dot">◆</span>
-      <span>Page Context Capture</span>
-      <span class="ticker-dot">◆</span>
-      <span>Cloud Sync</span>
-      <span class="ticker-dot">◆</span>
-      <span>Smart Task Capture</span>
-      <span class="ticker-dot">◆</span>
-      <span>AI Priority Suggestions</span>
-      <span class="ticker-dot">◆</span>
-      <span>Daily Standup Generator</span>
-      <span class="ticker-dot">◆</span>
-      <span>Task Decomposition</span>
-      <span class="ticker-dot">◆</span>
-      <span>Natural Language Search</span>
-      <span class="ticker-dot">◆</span>
-      <span>Page Context Capture</span>
-      <span class="ticker-dot">◆</span>
+      <span>Smart Task Capture</span><span class="ticker-dot">◆</span>
+      <span>AI Priority Suggestions</span><span class="ticker-dot">◆</span>
+      <span>Daily Standup Generator</span><span class="ticker-dot">◆</span>
+      <span>Task Decomposition</span><span class="ticker-dot">◆</span>
+      <span>Natural Language Search</span><span class="ticker-dot">◆</span>
+      <span>Page Context Capture</span><span class="ticker-dot">◆</span>
+      <span>Cloud Sync</span><span class="ticker-dot">◆</span>
+      <span>Puff Mascot</span><span class="ticker-dot">◆</span>
+      <span>Smart Task Capture</span><span class="ticker-dot">◆</span>
+      <span>AI Priority Suggestions</span><span class="ticker-dot">◆</span>
+      <span>Daily Standup Generator</span><span class="ticker-dot">◆</span>
     </div>
   </div>
 
@@ -142,39 +134,24 @@
         <h2 class="section-h2">Four AI Superpowers,<br /><em>One Extension</em></h2>
         <p class="section-sub">Nestly packs four distinct AI features — each solving a specific productivity pain point that browsers were never designed to handle.</p>
       </div>
-
       <div class="features-grid">
-
         <div class="feature-card feature-card--large">
           <div class="feature-icon">🎯</div>
           <div class="feature-num">Feature 01</div>
           <h3>Smart Priority Suggestions</h3>
           <p>Tell Nestly what's on your plate. The AI analyses deadlines, context, and task weight — then ranks everything so you never wonder "what should I do next?" again.</p>
           <div class="feature-demo">
-            <div class="demo-task demo-task--high">
-              <span class="demo-priority">P1</span>
-              <span>Fix production bug in auth flow</span>
-              <span class="demo-tag">urgent</span>
-            </div>
-            <div class="demo-task demo-task--med">
-              <span class="demo-priority">P2</span>
-              <span>Review Q3 design mockups</span>
-              <span class="demo-tag">today</span>
-            </div>
-            <div class="demo-task demo-task--low">
-              <span class="demo-priority">P3</span>
-              <span>Update onboarding docs</span>
-              <span class="demo-tag">this week</span>
-            </div>
+            <div class="demo-task demo-task--high"><span class="demo-priority">P1</span><span>Fix production bug in auth flow</span><span class="demo-tag">urgent</span></div>
+            <div class="demo-task demo-task--med"><span class="demo-priority">P2</span><span>Review Q3 design mockups</span><span class="demo-tag">today</span></div>
+            <div class="demo-task demo-task--low"><span class="demo-priority">P3</span><span>Update onboarding docs</span><span class="demo-tag">this week</span></div>
             <div class="demo-ai-badge">⚡ AI Ranked</div>
           </div>
         </div>
-
         <div class="feature-card">
           <div class="feature-icon">📢</div>
           <div class="feature-num">Feature 02</div>
           <h3>Daily Standup Generator</h3>
-          <p>Your tasks from yesterday + today = a polished standup message in 2 seconds. Copy, paste, done. No more morning brain fog scrambles.</p>
+          <p>Your tasks from yesterday + today = a polished standup message in 2 seconds. Copy, paste, done.</p>
           <div class="feature-standup">
             <div class="standup-line"><span class="s-label">Yesterday</span> Shipped login page redesign, closed 3 bugs</div>
             <div class="standup-line"><span class="s-label">Today</span> Auth flow fix, design review, docs update</div>
@@ -182,12 +159,11 @@
             <button class="standup-copy">Copy to Slack →</button>
           </div>
         </div>
-
         <div class="feature-card">
           <div class="feature-icon">🔪</div>
           <div class="feature-num">Feature 03</div>
           <h3>Task Decomposition</h3>
-          <p>Big, scary tasks get sliced into bite-sized subtasks automatically. "Launch new product" becomes 8 clear action items with context.</p>
+          <p>Big, scary tasks get sliced into bite-sized subtasks automatically. "Launch new product" becomes 8 clear action items.</p>
           <div class="feature-decomp">
             <div class="decomp-root">🚀 Launch new product page</div>
             <div class="decomp-children">
@@ -198,25 +174,16 @@
             </div>
           </div>
         </div>
-
         <div class="feature-card feature-card--accent">
           <div class="feature-icon">🔍</div>
           <div class="feature-num">Feature 04</div>
           <h3>Natural Language Search</h3>
-          <p>Forget ctrl+F. Just ask: <em>"What was that task about the API docs?"</em> — Nestly finds it instantly, even if you worded it completely differently.</p>
+          <p>Forget ctrl+F. Just ask: <em>"What was that task about the API docs?"</em> — Nestly finds it instantly.</p>
           <div class="feature-search">
-            <div class="search-bar">
-              <span class="search-icon">🔍</span>
-              <span class="search-text" id="searchDemo">what was the API migration task?</span>
-              <span class="search-cursor">|</span>
-            </div>
-            <div class="search-result">
-              <div class="sr-title">Migrate REST endpoints to v3 API</div>
-              <div class="sr-sub">Added 3 days ago · In Progress</div>
-            </div>
+            <div class="search-bar"><span class="search-icon">🔍</span><span class="search-text" id="searchDemo">what was the API migration task?</span><span class="search-cursor">|</span></div>
+            <div class="search-result"><div class="sr-title">Migrate REST endpoints to v3 API</div><div class="sr-sub">Added 3 days ago · In Progress</div></div>
           </div>
         </div>
-
       </div>
     </div>
   </section>
@@ -229,7 +196,6 @@
         <h2 class="section-h2">Built for Every Kind<br /><em>of Deep Worker</em></h2>
         <p class="section-sub">Whether you're shipping code, managing clients, or hustling solo — Nestly fits right into your flow.</p>
       </div>
-
       <div class="usecases-tabs">
         <div class="uc-tab-buttons">
           <button class="uc-tab active" data-tab="dev">👨‍💻 Developer</button>
@@ -238,16 +204,13 @@
           <button class="uc-tab" data-tab="student">📚 Student</button>
           <button class="uc-tab" data-tab="ops">⚙️ Ops / Support</button>
         </div>
-
         <div class="uc-panels">
           <div class="uc-panel active" data-panel="dev">
             <div class="uc-scenario">
-              <div class="uc-mascot-wrap">
-                <img src="assets/working.png" alt="Puff working" class="uc-mascot" />
-              </div>
+              <div class="uc-mascot-wrap"><img src="assets/working.png" alt="Puff working" class="uc-mascot" /></div>
               <div class="uc-content">
                 <h3>You're in the zone. Don't lose it.</h3>
-                <p>A Slack message lands. A GitHub issue needs triaging. A bug report comes in. Instead of tab-switching madness, you right-click → <strong>Send to Nestly</strong> and keep coding. Puff captures the URL, the page title, and your note — all without breaking your flow.</p>
+                <p>A Slack message lands. A GitHub issue needs triaging. A bug report comes in. Instead of tab-switching madness, right-click → <strong>Send to Nestly</strong> and keep coding.</p>
                 <ul class="uc-list">
                   <li>Capture GitHub issues to task queue without leaving the tab</li>
                   <li>Let AI decompose "refactor auth module" into 6 clear subtasks</li>
@@ -257,15 +220,12 @@
               </div>
             </div>
           </div>
-
           <div class="uc-panel" data-panel="pm">
             <div class="uc-scenario">
-              <div class="uc-mascot-wrap">
-                <img src="assets/thinking.png" alt="Puff thinking" class="uc-mascot" />
-              </div>
+              <div class="uc-mascot-wrap"><img src="assets/thinking.png" alt="Puff thinking" class="uc-mascot" /></div>
               <div class="uc-content">
                 <h3>Every meeting spawns 10 new tasks.</h3>
-                <p>You're in a Notion doc, a Figma file, and a Jira board simultaneously. Nestly becomes your universal capture layer — clip anything from any page, tag it, and let AI rank what needs your attention today vs. this sprint.</p>
+                <p>You're in a Notion doc, a Figma file, and a Jira board simultaneously. Nestly becomes your universal capture layer — clip anything from any page and let AI rank what matters now.</p>
                 <ul class="uc-list">
                   <li>Clip user research quotes directly into task context</li>
                   <li>AI-ranked backlog so you always know your P1</li>
@@ -275,15 +235,12 @@
               </div>
             </div>
           </div>
-
           <div class="uc-panel" data-panel="freelance">
             <div class="uc-scenario">
-              <div class="uc-mascot-wrap">
-                <img src="assets/front-happy.png" alt="Puff happy" class="uc-mascot" />
-              </div>
+              <div class="uc-mascot-wrap"><img src="assets/front-happy.png" alt="Puff happy" class="uc-mascot" /></div>
               <div class="uc-content">
                 <h3>Four clients. Zero project manager. You.</h3>
-                <p>Nestly is your personal operations layer. Capture client feedback from emails, organise by project, and get AI-written status updates ready to send. Puff keeps tabs on everything so you can focus on the actual work.</p>
+                <p>Nestly is your personal operations layer. Capture client feedback, organise by project, and get AI-written status updates ready to send.</p>
                 <ul class="uc-list">
                   <li>Clip client emails as tasks with full context attached</li>
                   <li>Generate professional status update emails in one click</li>
@@ -293,15 +250,12 @@
               </div>
             </div>
           </div>
-
           <div class="uc-panel" data-panel="student">
             <div class="uc-scenario">
-              <div class="uc-mascot-wrap">
-                <img src="assets/task-complete.png" alt="Puff complete" class="uc-mascot" />
-              </div>
+              <div class="uc-mascot-wrap"><img src="assets/task-complete.png" alt="Puff complete" class="uc-mascot" /></div>
               <div class="uc-content">
                 <h3>Research tabs are a blackhole. Not anymore.</h3>
-                <p>You've got 40 tabs open, three assignments due, and no idea what to tackle first. Nestly captures reading tasks from any page, breaks down big essays into steps, and ranks your due dates so you're never pulling all-nighters last minute.</p>
+                <p>You've got 40 tabs open, three assignments due, and no idea what to tackle first. Nestly ranks your due dates so you're never pulling all-nighters.</p>
                 <ul class="uc-list">
                   <li>Capture research sources as tasks with URL + summary</li>
                   <li>Break "write dissertation chapter" into weekly milestones</li>
@@ -311,15 +265,12 @@
               </div>
             </div>
           </div>
-
           <div class="uc-panel" data-panel="ops">
             <div class="uc-scenario">
-              <div class="uc-mascot-wrap">
-                <img src="assets/front-alert.png" alt="Puff alert" class="uc-mascot" />
-              </div>
+              <div class="uc-mascot-wrap"><img src="assets/front-alert.png" alt="Puff alert" class="uc-mascot" /></div>
               <div class="uc-content">
                 <h3>Tickets pour in. Priorities shift. Puff adapts.</h3>
-                <p>Support tickets, incident threads, escalation chains — everything moves fast in ops. Nestly gives you one surface to triage from, with AI that understands urgency and helps you communicate clearly to your team and stakeholders.</p>
+                <p>Support tickets, incident threads, escalation chains — everything moves fast in ops. Nestly gives you one triage surface with AI that understands urgency.</p>
                 <ul class="uc-list">
                   <li>Triage tickets from any helpdesk tab into Nestly queue</li>
                   <li>AI assigns urgency scores based on context you paste</li>
@@ -334,61 +285,111 @@
     </div>
   </section>
 
-  <!-- MASCOT SECTION -->
+  <!-- AI FEATURES DEEP DIVE -->
+  <section class="ai-features-section" id="ai-features">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-tag">AI Intelligence</div>
+        <h2 class="section-h2">The AI Engine<br /><em>Behind the Magic</em></h2>
+        <p class="section-sub">Every AI feature in Nestly is purpose-built for productivity — not a generic chatbot bolted on, but AI that understands your workflow context.</p>
+      </div>
+      <div class="ai-features-grid">
+        <div class="ai-feature-card">
+          <div class="ai-feature-header">
+            <div class="ai-feat-icon">🎯</div>
+            <div><h3>Context-Aware Prioritisation</h3><span class="ai-feat-tag">Smart Ranking</span></div>
+          </div>
+          <p>The AI reads task descriptions, understands urgency signals ("ASAP", "by EOD"), weights task complexity, and cross-references your workload to surface exactly what needs doing now.</p>
+          <div class="ai-feat-example">
+            <div class="afe-label">AI reasoning</div>
+            <div class="afe-text">"Auth bug ranked P1 — production impact detected. Design review moved to P2 — deadline tomorrow."</div>
+          </div>
+        </div>
+        <div class="ai-feature-card">
+          <div class="ai-feature-header">
+            <div class="ai-feat-icon">✂️</div>
+            <div><h3>Semantic Task Decomposition</h3><span class="ai-feat-tag">Task Splitting</span></div>
+          </div>
+          <p>When you drop a vague task like "set up CI/CD pipeline", the AI generates subtasks based on best practices — real steps a senior engineer would recognise, in the right order.</p>
+          <div class="ai-feat-example">
+            <div class="afe-label">Input → Output</div>
+            <div class="afe-text">"Migrate to TypeScript" → 7 steps: audit JS files, install deps, config tsconfig, migrate utils, migrate components, fix errors, update tests</div>
+          </div>
+        </div>
+        <div class="ai-feature-card">
+          <div class="ai-feature-header">
+            <div class="ai-feat-icon">📝</div>
+            <div><h3>Standup Intelligence</h3><span class="ai-feat-tag">Daily Reports</span></div>
+          </div>
+          <p>The standup generator reads your completed tasks and in-progress items — then writes a natural-sounding message formatted for Slack, Teams, or plain text. Sounds like you, not a robot.</p>
+          <div class="ai-feat-example">
+            <div class="afe-label">Generated output</div>
+            <div class="afe-text">"Yesterday: Wrapped up the auth refactor and closed 2 P2s. Today: Moving to the dashboard redesign. No blockers."</div>
+          </div>
+        </div>
+        <div class="ai-feature-card">
+          <div class="ai-feature-header">
+            <div class="ai-feat-icon">🔎</div>
+            <div><h3>Semantic NL Search</h3><span class="ai-feat-tag">NLP Search</span></div>
+          </div>
+          <p>Traditional search breaks if you misremember a keyword. Nestly's search understands intent — "that API thing we discussed" finds the exact task even with zero keyword overlap.</p>
+          <div class="ai-feat-example">
+            <div class="afe-label">Query → Match</div>
+            <div class="afe-text">"database connection timeout issue" → matches "Fix Supabase pooler latency in prod environment"</div>
+          </div>
+        </div>
+        <div class="ai-feature-card ai-feature-card--wide">
+          <div class="ai-feature-header">
+            <div class="ai-feat-icon">🛡️</div>
+            <div><h3>Secure AI Architecture</h3><span class="ai-feat-tag">Privacy First</span></div>
+          </div>
+          <p>All AI calls route through Nestly's server-side proxy. Your API keys are never exposed to the browser. Requests are rate-limited per user, encrypted in transit, and task data is never used to train third-party models.</p>
+          <div class="ai-arch-flow">
+            <div class="arch-node"><div class="arch-icon">🌐</div><div class="arch-label">Your Browser</div></div>
+            <div class="arch-arrow">→</div>
+            <div class="arch-node arch-node--secure"><div class="arch-icon">🔐</div><div class="arch-label">Nestly Proxy</div><div class="arch-sub">Auth + Rate limit</div></div>
+            <div class="arch-arrow">→</div>
+            <div class="arch-node"><div class="arch-icon">🧠</div><div class="arch-label">AI Engine</div><div class="arch-sub">&lt;1s response</div></div>
+            <div class="arch-arrow">→</div>
+            <div class="arch-node arch-node--result"><div class="arch-icon">✅</div><div class="arch-label">Task Panel</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="ai-coming-soon">
+        <div class="acs-label">🔮 Coming in future AI updates</div>
+        <div class="acs-chips">
+          <span class="acs-chip">📧 Email → Task extraction</span>
+          <span class="acs-chip">🎙️ Voice task capture</span>
+          <span class="acs-chip">📊 Productivity insights</span>
+          <span class="acs-chip">🤝 Team AI coordination</span>
+          <span class="acs-chip">🗓️ Calendar-aware scheduling</span>
+          <span class="acs-chip">🧩 Custom AI prompts</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MASCOT -->
   <section class="mascot-section" id="mascot">
     <div class="container">
       <div class="mascot-layout">
         <div class="mascot-left">
           <div class="section-tag">Your Sidekick</div>
           <h2 class="section-h2">Meet <span class="accent-text">Puff</span> —<br />The Mascot Who<br />Actually Works</h2>
-          <p class="section-sub">Puff is Nestly's always-on AI mascot that lives in the corner of every page you visit. Not a notification icon. Not a tab. An actual presence — reactive, expressive, and surprisingly helpful.</p>
+          <p class="section-sub">Puff is Nestly's always-on AI mascot that lives in the corner of every page you visit. Not a notification icon — an actual presence that's reactive, expressive, and helpful.</p>
           <div class="mascot-states">
-            <div class="state-item" data-state="idle">
-              <img src="assets/front-idle.png" alt="Puff idle" />
-              <div class="state-info">
-                <strong>Idle</strong>
-                <span>Gently floating, watching over your session</span>
-              </div>
-            </div>
-            <div class="state-item" data-state="thinking">
-              <img src="assets/thinking.png" alt="Puff thinking" />
-              <div class="state-info">
-                <strong>Thinking</strong>
-                <span>AI is processing your request</span>
-              </div>
-            </div>
-            <div class="state-item" data-state="alert">
-              <img src="assets/front-alert.png" alt="Puff alert" />
-              <div class="state-info">
-                <strong>Alert</strong>
-                <span>New tasks or notifications need attention</span>
-              </div>
-            </div>
-            <div class="state-item" data-state="happy">
-              <img src="assets/front-happy.png" alt="Puff happy" />
-              <div class="state-info">
-                <strong>Celebrating</strong>
-                <span>You just checked something off. Nice work!</span>
-              </div>
-            </div>
-            <div class="state-item" data-state="rest">
-              <img src="assets/side-rest.png" alt="Puff resting" />
-              <div class="state-info">
-                <strong>Resting</strong>
-                <span>You've been idle 3+ minutes. Puff naps too.</span>
-              </div>
-            </div>
+            <div class="state-item" data-state="idle"><img src="assets/front-idle.png" alt="Puff idle" /><div class="state-info"><strong>Idle</strong><span>Gently floating, watching over your session</span></div></div>
+            <div class="state-item" data-state="thinking"><img src="assets/thinking.png" alt="Puff thinking" /><div class="state-info"><strong>Thinking</strong><span>AI is processing your request</span></div></div>
+            <div class="state-item" data-state="alert"><img src="assets/front-alert.png" alt="Puff alert" /><div class="state-info"><strong>Alert</strong><span>New tasks or notifications need attention</span></div></div>
+            <div class="state-item" data-state="happy"><img src="assets/front-happy.png" alt="Puff happy" /><div class="state-info"><strong>Celebrating</strong><span>You just checked something off. Nice work!</span></div></div>
+            <div class="state-item" data-state="rest"><img src="assets/side-rest.png" alt="Puff resting" /><div class="state-info"><strong>Resting</strong><span>You've been idle 3+ minutes. Puff naps too.</span></div></div>
           </div>
         </div>
         <div class="mascot-right">
           <div class="mascot-stage">
             <div class="stage-bg"></div>
-            <div class="mascot-big-display" id="mascotDisplay">
-              <img src="assets/front-idle.png" alt="Puff" class="mascot-body" id="mascotBody" />
-            </div>
-            <div class="stage-speech" id="stageSpeech">
-              "Hi! I'm Puff. I'll keep your tasks in check while you browse."
-            </div>
+            <div class="mascot-big-display" id="mascotDisplay"><img src="assets/front-idle.png" alt="Puff" class="mascot-body" id="mascotBody" /></div>
+            <div class="stage-speech" id="stageSpeech">"Hi! I'm Puff. I'll keep your tasks in check while you browse."</div>
             <div class="stage-controls">
               <button class="stage-btn" onclick="setMascotState('idle')">😴 Idle</button>
               <button class="stage-btn" onclick="setMascotState('thinking')">🧠 Think</button>
@@ -398,85 +399,11 @@
           </div>
         </div>
       </div>
-
       <div class="mascot-traits">
-        <div class="trait-card">
-          <div class="trait-icon">🎭</div>
-          <h4>Expressive States</h4>
-          <p>7 body poses, 6 eye expressions, and animated FX overlays. Puff communicates through animation, not words.</p>
-        </div>
-        <div class="trait-card">
-          <div class="trait-icon">📍</div>
-          <h4>Draggable & Persistent</h4>
-          <p>Move Puff anywhere on screen. Position is saved between sessions — your corner, your call.</p>
-        </div>
-        <div class="trait-card">
-          <div class="trait-icon">🔇</div>
-          <h4>Unobtrusive by Default</h4>
-          <p>Puff hides when you switch tabs, respects reduced-motion settings, and can be toggled off with one click.</p>
-        </div>
-        <div class="trait-card">
-          <div class="trait-icon">⚡</div>
-          <h4>Click → Open Popup</h4>
-          <p>One tap on Puff opens your task panel instantly. Your entire Nestly, always one click away.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- AI DEEP DIVE -->
-  <section class="ai-section" id="ai">
-    <div class="ai-bg">
-      <div class="ai-noise"></div>
-    </div>
-    <div class="container">
-      <div class="section-header section-header--light">
-        <div class="section-tag section-tag--light">AI Architecture</div>
-        <h2 class="section-h2 light">Powered by AI.<br /><em>Secured by Design.</em></h2>
-        <p class="section-sub light">Nestly's AI runs through a secure proxy server — your data never touches a third party directly, and your API keys stay locked away server-side.</p>
-      </div>
-      <div class="ai-flow">
-        <div class="flow-node flow-node--chrome">
-          <div class="flow-icon">🌐</div>
-          <div class="flow-label">Chrome Extension</div>
-          <div class="flow-sub">Your request</div>
-        </div>
-        <div class="flow-arrow">→</div>
-        <div class="flow-node flow-node--proxy">
-          <div class="flow-icon">🛡️</div>
-          <div class="flow-label">Nestly Proxy</div>
-          <div class="flow-sub">Auth + rate limit</div>
-        </div>
-        <div class="flow-arrow">→</div>
-        <div class="flow-node flow-node--ai">
-          <div class="flow-icon">🧠</div>
-          <div class="flow-label">AI Engine</div>
-          <div class="flow-sub">Response in <1s</div>
-        </div>
-        <div class="flow-arrow">→</div>
-        <div class="flow-node flow-node--result">
-          <div class="flow-icon">✅</div>
-          <div class="flow-label">Your Task Panel</div>
-          <div class="flow-sub">Result displayed</div>
-        </div>
-      </div>
-      <div class="ai-specs">
-        <div class="spec-item">
-          <div class="spec-num">30/min</div>
-          <div class="spec-label">Rate limit per user</div>
-        </div>
-        <div class="spec-item">
-          <div class="spec-num">< 1s</div>
-          <div class="spec-label">Average AI response</div>
-        </div>
-        <div class="spec-item">
-          <div class="spec-num">0</div>
-          <div class="spec-label">API keys exposed to browser</div>
-        </div>
-        <div class="spec-item">
-          <div class="spec-num">MV3</div>
-          <div class="spec-label">Manifest version (latest Chrome standard)</div>
-        </div>
+        <div class="trait-card"><div class="trait-icon">🎭</div><h4>Expressive States</h4><p>7 body poses, 6 eye expressions, and animated FX overlays. Puff communicates through animation, not words.</p></div>
+        <div class="trait-card"><div class="trait-icon">📍</div><h4>Draggable & Persistent</h4><p>Move Puff anywhere on screen. Position is saved between sessions — your corner, your call.</p></div>
+        <div class="trait-card"><div class="trait-icon">🔇</div><h4>Unobtrusive by Default</h4><p>Puff hides when you switch tabs, respects reduced-motion settings, and can be toggled off with one click.</p></div>
+        <div class="trait-card"><div class="trait-icon">⚡</div><h4>Click → Open Popup</h4><p>One tap on Puff opens your task panel instantly. Your entire Nestly, always one click away.</p></div>
       </div>
     </div>
   </section>
@@ -487,135 +414,27 @@
       <div class="section-header">
         <div class="section-tag">Integrations</div>
         <h2 class="section-h2">Works Where<br /><em>You Already Work</em></h2>
-        <p class="section-sub">Nestly captures from any webpage today — and deep integrations with your favourite tools are coming soon.</p>
+        <p class="section-sub">Nestly captures from any webpage today — deep integrations with your favourite tools are coming soon.</p>
       </div>
-
       <div class="integrations-now">
         <div class="int-now-label">Available Now</div>
         <div class="int-chips">
-          <div class="int-chip int-chip--live">
-            <span class="int-dot live"></span>
-            Any Webpage
-          </div>
-          <div class="int-chip int-chip--live">
-            <span class="int-dot live"></span>
-            Right-click Capture
-          </div>
-          <div class="int-chip int-chip--live">
-            <span class="int-dot live"></span>
-            Cloud Sync
-          </div>
-          <div class="int-chip int-chip--live">
-            <span class="int-dot live"></span>
-            Chrome Extension
-          </div>
-          <div class="int-chip int-chip--live">
-            <span class="int-dot live"></span>
-            AI Assistant
-          </div>
+          <div class="int-chip int-chip--live"><span class="int-dot live"></span>Any Webpage</div>
+          <div class="int-chip int-chip--live"><span class="int-dot live"></span>Right-click Capture</div>
+          <div class="int-chip int-chip--live"><span class="int-dot live"></span>Cloud Sync</div>
+          <div class="int-chip int-chip--live"><span class="int-dot live"></span>Chrome Extension</div>
+          <div class="int-chip int-chip--live"><span class="int-dot live"></span>AI Assistant</div>
         </div>
       </div>
-
       <div class="integrations-coming">
         <div class="int-coming-label">Coming Soon</div>
         <div class="int-cards">
-
-          <div class="int-card">
-            <div class="int-card-header">
-              <div class="int-logo int-logo--notion">N</div>
-              <div class="int-meta">
-                <h4>Notion</h4>
-                <span class="int-status soon">Q3 2025</span>
-              </div>
-            </div>
-            <p>Push tasks directly into Notion databases. Bi-directional sync with your project boards.</p>
-            <div class="int-features">
-              <span>→ Push tasks to DB</span>
-              <span>→ Sync status back</span>
-              <span>→ Page capture</span>
-            </div>
-          </div>
-
-          <div class="int-card">
-            <div class="int-card-header">
-              <div class="int-logo int-logo--slack">S</div>
-              <div class="int-meta">
-                <h4>Slack</h4>
-                <span class="int-status soon">Q3 2025</span>
-              </div>
-            </div>
-            <p>Post standups to your team channel automatically. Convert Slack messages to tasks with one click.</p>
-            <div class="int-features">
-              <span>→ Auto standup post</span>
-              <span>→ Message → task</span>
-              <span>→ Channel alerts</span>
-            </div>
-          </div>
-
-          <div class="int-card">
-            <div class="int-card-header">
-              <div class="int-logo int-logo--linear">L</div>
-              <div class="int-meta">
-                <h4>Linear</h4>
-                <span class="int-status coming">Q4 2025</span>
-              </div>
-            </div>
-            <p>Sync your Linear issues directly into Nestly. AI-rank your sprint backlog without opening Linear.</p>
-            <div class="int-features">
-              <span>→ Issue sync</span>
-              <span>→ Sprint AI ranking</span>
-              <span>→ Status updates</span>
-            </div>
-          </div>
-
-          <div class="int-card">
-            <div class="int-card-header">
-              <div class="int-logo int-logo--github">G</div>
-              <div class="int-meta">
-                <h4>GitHub</h4>
-                <span class="int-status coming">Q4 2025</span>
-              </div>
-            </div>
-            <p>Turn GitHub issues and PRs into Nestly tasks. Standup auto-references your recent commits.</p>
-            <div class="int-features">
-              <span>→ Issue → task</span>
-              <span>→ PR tracking</span>
-              <span>→ Commit standup</span>
-            </div>
-          </div>
-
-          <div class="int-card">
-            <div class="int-card-header">
-              <div class="int-logo int-logo--jira">J</div>
-              <div class="int-meta">
-                <h4>Jira</h4>
-                <span class="int-status future">2026</span>
-              </div>
-            </div>
-            <p>Full Jira board sync. Decompose epics into stories using AI, and push them straight to your board.</p>
-            <div class="int-features">
-              <span>→ Board sync</span>
-              <span>→ Epic decompose</span>
-              <span>→ Sprint planning</span>
-            </div>
-          </div>
-
-          <div class="int-card">
-            <div class="int-card-header">
-              <div class="int-logo int-logo--gmail">@</div>
-              <div class="int-meta">
-                <h4>Gmail</h4>
-                <span class="int-status future">2026</span>
-              </div>
-            </div>
-            <p>Convert emails to action items instantly. AI extracts tasks from email chains and surfaces them in Nestly.</p>
-            <div class="int-features">
-              <span>→ Email → task</span>
-              <span>→ Thread capture</span>
-              <span>→ Follow-up reminders</span>
-            </div>
-          </div>
-
+          <div class="int-card"><div class="int-card-header"><div class="int-logo int-logo--notion">N</div><div class="int-meta"><h4>Notion</h4><span class="int-status soon">Q3 2025</span></div></div><p>Push tasks directly into Notion databases. Bi-directional sync with your project boards.</p><div class="int-features"><span>→ Push tasks to DB</span><span>→ Sync status back</span><span>→ Page capture</span></div></div>
+          <div class="int-card"><div class="int-card-header"><div class="int-logo int-logo--slack">S</div><div class="int-meta"><h4>Slack</h4><span class="int-status soon">Q3 2025</span></div></div><p>Post standups to your team channel automatically. Convert Slack messages to tasks with one click.</p><div class="int-features"><span>→ Auto standup post</span><span>→ Message → task</span><span>→ Channel alerts</span></div></div>
+          <div class="int-card"><div class="int-card-header"><div class="int-logo int-logo--linear">L</div><div class="int-meta"><h4>Linear</h4><span class="int-status coming">Q4 2025</span></div></div><p>Sync your Linear issues directly into Nestly. AI-rank your sprint backlog without opening Linear.</p><div class="int-features"><span>→ Issue sync</span><span>→ Sprint AI ranking</span><span>→ Status updates</span></div></div>
+          <div class="int-card"><div class="int-card-header"><div class="int-logo int-logo--github">G</div><div class="int-meta"><h4>GitHub</h4><span class="int-status coming">Q4 2025</span></div></div><p>Turn GitHub issues and PRs into Nestly tasks. Standup auto-references your recent commits.</p><div class="int-features"><span>→ Issue → task</span><span>→ PR tracking</span><span>→ Commit standup</span></div></div>
+          <div class="int-card"><div class="int-card-header"><div class="int-logo int-logo--jira">J</div><div class="int-meta"><h4>Jira</h4><span class="int-status future">2026</span></div></div><p>Full Jira board sync. Decompose epics into stories using AI, and push them straight to your board.</p><div class="int-features"><span>→ Board sync</span><span>→ Epic decompose</span><span>→ Sprint planning</span></div></div>
+          <div class="int-card"><div class="int-card-header"><div class="int-logo int-logo--gmail">@</div><div class="int-meta"><h4>Gmail</h4><span class="int-status future">2026</span></div></div><p>Convert emails to action items instantly. AI extracts tasks from email chains and surfaces them in Nestly.</p><div class="int-features"><span>→ Email → task</span><span>→ Thread capture</span><span>→ Follow-up reminders</span></div></div>
         </div>
       </div>
     </div>
@@ -630,14 +449,36 @@
         <p class="section-sub">Nestly is free to use with generous limits. Upgrade when you need more AI power or team features.</p>
       </div>
 
-      <div class="pricing-grid">
+      <!-- Auto-detected currency indicator — no user action needed -->
+      <div class="currency-auto-bar">
+        <span class="cab-indicator" id="currencyIndicator">Prices shown in US Dollar (USD)</span>
+        <button class="cab-wrong-link" onclick="showCurrencyOverride()">Wrong currency?</button>
+      </div>
 
+      <!-- Override panel — hidden by default, only shown on "Wrong currency?" click -->
+      <div class="currency-override-panel" id="currencyOverridePanel" style="display:none;">
+        <span class="cop-label">Choose your currency:</span>
+        <select id="currencyPicker" onchange="switchCurrency(this.value)" class="cop-select">
+          <option value="USD">🇺🇸 USD — US Dollar</option>
+          <option value="INR">🇮🇳 INR — Indian Rupee</option>
+          <option value="EUR">🇪🇺 EUR — Euro</option>
+          <option value="GBP">🇬🇧 GBP — British Pound</option>
+          <option value="CAD">🇨🇦 CAD — Canadian Dollar</option>
+          <option value="AUD">🇦🇺 AUD — Australian Dollar</option>
+        </select>
+        <button class="cop-close" onclick="document.getElementById('currencyOverridePanel').style.display='none'">✕</button>
+      </div>
+
+      <div class="billing-toggle">
+        <span class="bt-label">Monthly</span>
+        <button class="bt-switch" id="billingSwitch" onclick="toggleBilling()"><span class="bt-thumb"></span></button>
+        <span class="bt-label">Annual <span class="bt-save">Save 20%</span></span>
+      </div>
+
+      <div class="pricing-grid">
         <div class="pricing-card">
           <div class="pricing-plan">Free</div>
-          <div class="pricing-price">
-            <span class="price-amount">$0</span>
-            <span class="price-period">forever</span>
-          </div>
+          <div class="pricing-price"><span class="price-amount">Free</span><span class="price-period">forever</span></div>
           <p class="pricing-desc">Perfect for personal productivity. Everything you need to get started with AI task management.</p>
           <ul class="pricing-features">
             <li><span class="pf-check">✓</span> Up to 50 tasks</li>
@@ -647,19 +488,16 @@
             <li><span class="pf-check">✓</span> Natural Language Search</li>
             <li><span class="pf-check">✓</span> Puff Mascot (3 expressions)</li>
             <li><span class="pf-cross">✗</span> Team sharing</li>
-            <li><span class="pf-cross">✗</span> Integrations (Notion, Slack…)</li>
+            <li><span class="pf-cross">✗</span> Integrations</li>
             <li><span class="pf-cross">✗</span> Unlimited AI calls</li>
           </ul>
           <a href="#" class="btn-outline btn-full">Get Started Free</a>
         </div>
-
         <div class="pricing-card pricing-card--featured">
           <div class="pricing-badge">Most Popular</div>
           <div class="pricing-plan">Pro</div>
-          <div class="pricing-price">
-            <span class="price-amount">$5.99</span>
-            <span class="price-period">/month</span>
-          </div>
+          <div class="pricing-price"><span class="price-amount" id="proPrice">$5.99</span><span class="price-period" id="proPeriod">/month</span></div>
+          <div class="price-annual-note" id="annualNote" style="display:none;"><span id="annualTotal">Billed $57/year</span> · <span id="annualSaving" style="color:var(--teal)">Save $14.88</span></div>
           <p class="pricing-desc">For power users and freelancers who live inside their browser and need AI on demand.</p>
           <ul class="pricing-features">
             <li><span class="pf-check">✓</span> Unlimited tasks</li>
@@ -672,48 +510,141 @@
             <li><span class="pf-cross">✗</span> Team seats</li>
             <li><span class="pf-cross">✗</span> Admin dashboard</li>
           </ul>
-          <button onclick="WorkTrayPay.open('pro')" class="btn-primary btn-full" style="cursor:pointer;border:none;width:100%;font-size:inherit;font-family:inherit;">Start 14-Day Free Trial</button>
+          <button onclick="WorkTrayPay && WorkTrayPay.open('pro')" class="btn-primary btn-full" style="cursor:pointer;border:none;width:100%;font-size:inherit;font-family:inherit;">Start 14-Day Free Trial</button>
           <div class="pricing-note">No credit card required</div>
         </div>
-
       </div>
 
       <div class="pricing-faq">
         <h3>Frequently Asked Questions</h3>
         <div class="faq-grid">
-          <div class="faq-item">
-            <h4>Do I need to enter payment info for the free plan?</h4>
-            <p>Nope. Install the extension, create an account, and start using Nestly immediately. No card needed until you decide to upgrade.</p>
+          <div class="faq-item"><h4>Do I need payment info for the free plan?</h4><p>Nope. Install the extension, create an account, and start immediately. No card needed until you upgrade.</p></div>
+          <div class="faq-item"><h4>Where is my data stored?</h4><p>Tasks are stored securely with encryption at rest and row-level access controls. We don't sell your data or train AI on it.</p></div>
+          <div class="faq-item"><h4>Can I cancel anytime?</h4><p>Yes. Cancel from your account settings and your plan downgrades at end of billing period. No lock-in, no tricks.</p></div>
+          <div class="faq-item"><h4>Is the AI secure?</h4><p>All AI requests go through a server-side proxy. Your API keys are never exposed to the browser.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="testimonials-section" id="testimonials">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-tag">Community</div>
+        <h2 class="section-h2">What Early Users<br /><em>Are Saying</em></h2>
+        <p class="section-sub">Real feedback from beta users who helped shape v1.0. We read every message.</p>
+      </div>
+      <div class="testimonials-grid" id="testimonialsGrid">
+        <div class="testimonial-card">
+          <div class="tc-rating">★★★★★</div>
+          <p>"Finally a task manager that lives inside my browser. The AI standup generator alone saves me 10 minutes every morning."</p>
+          <div class="tc-author"><div class="tc-avatar">RS</div><div><div class="tc-name">Rahul S.</div><div class="tc-role">Full-stack Developer</div></div></div>
+          <div class="tc-tag">💡 Feature request: Dark mode for popup</div>
+        </div>
+        <div class="testimonial-card">
+          <div class="tc-rating">★★★★★</div>
+          <p>"I manage 5 client projects. Before Nestly I was losing tasks in email threads constantly. Now Puff catches everything."</p>
+          <div class="tc-author"><div class="tc-avatar">MP</div><div><div class="tc-name">Mia P.</div><div class="tc-role">Freelance Designer</div></div></div>
+          <div class="tc-tag">💡 Feature request: Notion sync ASAP</div>
+        </div>
+        <div class="testimonial-card">
+          <div class="tc-rating">★★★★☆</div>
+          <p>"The NL search is genuinely impressive — I typed 'that payment bug' and it found the exact task from 2 weeks ago. Witchcraft."</p>
+          <div class="tc-author"><div class="tc-avatar">AK</div><div><div class="tc-name">Arjun K.</div><div class="tc-role">Engineering Lead</div></div></div>
+          <div class="tc-tag">💡 Feature request: GitHub integration</div>
+        </div>
+      </div>
+      <div class="testimonials-cta"><a href="#feedback" class="btn-ghost">Share your feedback ↓</a></div>
+    </div>
+  </section>
+
+  <!-- FEEDBACK -->
+  <section class="feedback-section" id="feedback">
+    <div class="feedback-bg"><div class="fb-glow fb-glow-1"></div><div class="fb-glow fb-glow-2"></div></div>
+    <div class="container">
+      <div class="section-header section-header--light">
+        <div class="section-tag section-tag--teal">User Feedback</div>
+        <h2 class="section-h2 light">Help Us Build<br /><em>What You Need</em></h2>
+        <p class="section-sub light">Nestly v1.0 is just the beginning. Every piece of feedback directly shapes our roadmap. Tell us what's working, what's broken, and what you wish existed.</p>
+      </div>
+      <div class="feedback-layout">
+        <div class="feedback-info">
+          <div class="fi-item"><div class="fi-icon">🔨</div><div><h4>Bug Reports</h4><p>Something broken? Tell us and we'll fix it in the next release.</p></div></div>
+          <div class="fi-item"><div class="fi-icon">💡</div><div><h4>Feature Requests</h4><p>Tag your feedback with what you want next — we prioritise by votes.</p></div></div>
+          <div class="fi-item"><div class="fi-icon">❤️</div><div><h4>General Feedback</h4><p>Love it? Hate something? We genuinely want to know.</p></div></div>
+          <div class="fi-item"><div class="fi-icon">🗺️</div><div><h4>Roadmap Influence</h4><p>Top-voted feature requests get added to the public roadmap.</p></div></div>
+          <div class="fi-version-box">
+            <div class="fivb-label">Current Version</div>
+            <div class="fivb-version">Nestly v1.0.0 Beta</div>
+            <div class="fivb-sub">Released May 2025 · More updates weekly</div>
+            <div class="fivb-mascot"><img src="assets/pen-idle.png" alt="Puff writing" /></div>
           </div>
-          <div class="faq-item">
-            <h4>Where is my data stored?</h4>
-            <p>Tasks and settings are stored securely with encryption at rest and row-level access controls. Your data belongs to you — we don't sell it or train AI on it.</p>
-          </div>
-          <div class="faq-item">
-            <h4>Can I cancel anytime?</h4>
-            <p>Yes. Cancel from your account settings and your plan downgrades at end of billing period. No lock-in, no tricks.</p>
-          </div>
-          <div class="faq-item">
-            <h4>Is the AI secure?</h4>
-            <p>All AI requests go through a server-side proxy. Your API keys are never exposed to the browser. Rate limiting prevents abuse.</p>
+        </div>
+        <div class="feedback-form-wrap">
+          <div class="feedback-form-card" id="feedbackFormCard">
+            <h3 class="ff-title">Send Feedback</h3>
+            <div class="ff-group">
+              <label class="ff-label">How's your experience?</label>
+              <div class="ff-rating" id="ratingGroup">
+                <button class="ff-emoji-btn active" data-rating="5" onclick="setRating(5, this)">😍</button>
+                <button class="ff-emoji-btn" data-rating="4" onclick="setRating(4, this)">😊</button>
+                <button class="ff-emoji-btn" data-rating="3" onclick="setRating(3, this)">😐</button>
+                <button class="ff-emoji-btn" data-rating="2" onclick="setRating(2, this)">😕</button>
+                <button class="ff-emoji-btn" data-rating="1" onclick="setRating(1, this)">😤</button>
+              </div>
+            </div>
+            <div class="ff-group">
+              <label class="ff-label">Tag for next update</label>
+              <div class="ff-tags" id="tagsGroup">
+                <button class="ff-tag-btn active" data-tag="feature-request" onclick="setTag('feature-request', this)">💡 Feature Request</button>
+                <button class="ff-tag-btn" data-tag="bug-report" onclick="setTag('bug-report', this)">🐛 Bug Report</button>
+                <button class="ff-tag-btn" data-tag="ux-feedback" onclick="setTag('ux-feedback', this)">🎨 UX Feedback</button>
+                <button class="ff-tag-btn" data-tag="performance" onclick="setTag('performance', this)">⚡ Performance</button>
+                <button class="ff-tag-btn" data-tag="integration" onclick="setTag('integration', this)">🔌 Integration</button>
+                <button class="ff-tag-btn" data-tag="ai-quality" onclick="setTag('ai-quality', this)">🧠 AI Quality</button>
+                <button class="ff-tag-btn" data-tag="general" onclick="setTag('general', this)">💬 General</button>
+              </div>
+            </div>
+            <div class="ff-row">
+              <div class="ff-group"><label class="ff-label" for="fbName">Name <span class="ff-optional">(optional)</span></label><input type="text" id="fbName" class="ff-input" placeholder="Your name" /></div>
+              <div class="ff-group"><label class="ff-label" for="fbEmail">Email <span class="ff-optional">(optional)</span></label><input type="email" id="fbEmail" class="ff-input" placeholder="your@email.com" /></div>
+            </div>
+            <div class="ff-group">
+              <label class="ff-label" for="fbMessage">Your feedback</label>
+              <textarea id="fbMessage" class="ff-textarea" placeholder="Tell us what's working, what's not, or what you'd love to see next..."></textarea>
+            </div>
+            <div class="ff-actions">
+              <button class="ff-submit btn-primary" id="submitFeedback" onclick="submitFeedback()">
+                <svg fill="none" viewBox="0 0 24 24" height="18px" width="18px" xmlns="http://www.w3.org/2000/svg"><path stroke="currentColor" stroke-linejoin="round" stroke-linecap="round" stroke-width="1.5" d="M7.39999 6.32003L15.89 3.49003C19.7 2.22003 21.77 4.30003 20.51 8.11003L17.68 16.6C15.78 22.31 12.66 22.31 10.76 16.6L9.91999 14.08L7.39999 13.24C1.68999 11.34 1.68999 8.23003 7.39999 6.32003Z"></path><path stroke="currentColor" stroke-linejoin="round" stroke-linecap="round" stroke-width="1.5" d="M10.11 13.6501L13.69 10.0601"></path></svg>
+                Send Feedback
+              </button>
+              <span class="ff-privacy">We read every message. No spam, ever.</span>
+            </div>
+            <div class="ff-success" id="fbSuccess" style="display:none;">
+              <img src="assets/front-happy.png" alt="Puff happy" class="ffs-mascot" />
+              <h4>Thank you! 🎉</h4>
+              <p>Your feedback is received and will help shape the next update.</p>
+              <button class="btn-ghost" onclick="resetFeedbackForm()">Send another</button>
+            </div>
+            <div class="ff-error" id="fbError" style="display:none;"><p>⚠️ <span id="fbErrorMsg">Something went wrong. Please try again.</span></p></div>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- CTA FINAL -->
+  <!-- CTA -->
   <section class="final-cta">
     <div class="container">
       <div class="cta-box">
         <img src="assets/front-happy.png" alt="Puff happy" class="cta-mascot" />
         <div class="cta-content">
+          <div class="cta-v1-pill">🚀 v1.0 is live — more coming weekly</div>
           <h2>Ready to get your browser<br />working <em>with</em> you?</h2>
-          <p>Join thousands of devs, PMs, and freelancers who've added Puff to their team.</p>
+          <p>Join early adopters who've added Puff to their team — and help us build what's next.</p>
           <div class="cta-buttons">
-            <a href="#" class="btn-primary btn-lg">
-              Add Nestly to Chrome — Free →
-            </a>
+            <a href="#pricing" class="btn-primary btn-lg">Add Nestly to Chrome — Free →</a>
             <span class="cta-note">Takes 30 seconds to install</span>
           </div>
         </div>
@@ -726,52 +657,25 @@
     <div class="container">
       <div class="footer-grid">
         <div class="footer-brand">
-          <div class="footer-logo">
-            <img src="assets/worktray-logo.png" alt="Nestly" />
-            <span>Nestly</span>
-          </div>
-          <p>The AI-powered Chrome extension that lives in your browser and keeps your work organised.</p>
-          <div class="footer-mascot-small">
-            <img src="assets/side-rest.png" alt="Puff resting" />
-          </div>
+          <div class="footer-logo"><img src="assets/worktray-logo.png" alt="Nestly" /><span>Nestly</span><span class="footer-beta-tag">Beta</span></div>
+          <p>The AI-powered Chrome extension that lives in your browser. v1.0 — more updates on the way every week.</p>
+          <div class="footer-mascot-small"><img src="assets/side-rest.png" alt="Puff resting" /></div>
         </div>
-        <div class="footer-col">
-          <h5>Product</h5>
-          <ul>
-            <li><a href="#features">Features</a></li>
-            <li><a href="#usecases">Use Cases</a></li>
-            <li><a href="#pricing">Pricing</a></li>
-            <li><a href="#">Changelog</a></li>
-          </ul>
-        </div>
-        <div class="footer-col">
-          <h5>Integrations</h5>
-          <ul>
-            <li><a href="#">Notion (Q3 2025)</a></li>
-            <li><a href="#">Slack (Q3 2025)</a></li>
-            <li><a href="#">Linear (Q4 2025)</a></li>
-            <li><a href="#">GitHub (Q4 2025)</a></li>
-          </ul>
-        </div>
-        <div class="footer-col">
-          <h5>Legal</h5>
-          <ul>
-            <li><a href="#">Privacy Policy</a></li>
-            <li><a href="#">Terms of Service</a></li>
-            <li><a href="#">Cookie Policy</a></li>
-          </ul>
-        </div>
+        <div class="footer-col"><h5>Product</h5><ul><li><a href="#features">Features</a></li><li><a href="#usecases">Use Cases</a></li><li><a href="#ai-features">AI Features</a></li><li><a href="#pricing">Pricing</a></li><li><a href="#feedback">Feedback</a></li></ul></div>
+        <div class="footer-col"><h5>Integrations</h5><ul><li><a href="#">Notion (Q3 2025)</a></li><li><a href="#">Slack (Q3 2025)</a></li><li><a href="#">Linear (Q4 2025)</a></li><li><a href="#">GitHub (Q4 2025)</a></li></ul></div>
+        <div class="footer-col"><h5>Legal</h5><ul><li><a href="#">Privacy Policy</a></li><li><a href="#">Terms of Service</a></li><li><a href="#">Cookie Policy</a></li></ul></div>
       </div>
       <div class="footer-bottom">
-        <span>© 2025 Nestly. All rights reserved.</span>
-        <span>Built with 🤖 and a lot of coffee.</span>
+        <span>© 2025 Nestly. All rights reserved. — v1.0 Beta</span>
+        <span>Built with 🤖 and a lot of coffee. More updates shipping weekly.</span>
       </div>
     </div>
   </footer>
 
-  <!-- Razorpay Payment SDK -->
   <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
   <script src="razorpay.js"></script>
   <script src="main.js"></script>
+  <script src="feedback.js"></script>
+  <script src="pricing.js"></script>
 </body>
 </html>
