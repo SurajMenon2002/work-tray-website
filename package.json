@@ -5,12 +5,19 @@
   "scripts": {
     "dev": "npx serve public -p 3000",
     "build": "echo 'Static site — no build step needed. Deploy the /public folder.'",
-    "preview": "npx serve public -p 4000"
+    "preview": "wrangler dev",
+    "deploy": "wrangler deploy"
   },
-  "keywords": ["nestly", "chrome-extension", "productivity", "ai"],
+  "keywords": [
+    "nestly",
+    "chrome-extension",
+    "productivity",
+    "ai"
+  ],
   "author": "Nestly",
   "license": "MIT",
   "devDependencies": {
-    "serve": "^14.0.0"
+    "serve": "^14.0.0",
+    "wrangler": "^4.90.0"
   }
 }
