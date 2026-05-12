@@ -1,0 +1,12 @@
+# Nestly — robots.txt
+# Site: https://nestly-60q.pages.dev/
+# Also known as: Nestlyq, WorkTray
+# Product: AI Task Management & AI Project Management Chrome Extension
+
+User-agent: *
+Allow: /
+Disallow: /payment
+Disallow: /payment.html
+
+# Sitemaps
+Sitemap: https://nestly-60q.pages.dev/sitemap.xml

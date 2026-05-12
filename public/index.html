@@ -3,9 +3,226 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Nestly — Your AI Collaboration Nest</title>
-  <meta name="description" content="Nestly is the AI-powered Chrome extension that captures tasks from any page, prioritises your day, writes your standups, and keeps you warm, organised, and connected." />
+
+  <!-- ═══════════════════════════════════════════════
+       PRIMARY SEO META TAGS
+  ════════════════════════════════════════════════ -->
+  <title>Nestly | AI Task Management & Project Management Chrome Extension</title>
+  <meta name="description" content="Nestly (also known as Nestlyq & WorkTray) is the AI-powered Chrome extension for task management and project management. Capture tasks, prioritise your day, generate standups, and stay organised — free forever." />
+  <meta name="keywords" content="nestly, nestlyq, worktray, ai task management, ai project management, chrome extension productivity, ai task manager, browser task manager, standup generator, ai todo app, smart task capture, project management ai, daily standup ai, task decomposition ai, ai productivity tool" />
+  <meta name="author" content="Nestly" />
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+  <meta name="googlebot" content="index, follow" />
+  <link rel="canonical" href="https://nestly-60q.pages.dev/" />
+
+  <!-- ═══════════════════════════════════════════════
+       OPEN GRAPH (Facebook / LinkedIn / WhatsApp)
+  ════════════════════════════════════════════════ -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://nestly-60q.pages.dev/" />
+  <meta property="og:title" content="Nestly | AI Task Management & Project Management Chrome Extension" />
+  <meta property="og:description" content="Nestly (Nestlyq / WorkTray) — AI-powered Chrome extension that captures tasks from any page, ranks priorities, writes your standups, and keeps your work organised. Free forever plan available." />
+  <meta property="og:image" content="https://nestly-60q.pages.dev/assets/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Nestly AI Task Management Chrome Extension — meet Puff, your browser companion" />
+  <meta property="og:site_name" content="Nestly" />
+  <meta property="og:locale" content="en_US" />
+
+  <!-- ═══════════════════════════════════════════════
+       TWITTER CARD
+  ════════════════════════════════════════════════ -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@nestly_app" />
+  <meta name="twitter:creator" content="@nestly_app" />
+  <meta name="twitter:title" content="Nestly | AI Task Management Chrome Extension" />
+  <meta name="twitter:description" content="AI-powered task & project management that lives in your browser. Capture, prioritise, standup — powered by AI. Free to start." />
+  <meta name="twitter:image" content="https://nestly-60q.pages.dev/assets/og-image.png" />
+  <meta name="twitter:image:alt" content="Nestly AI task management extension" />
+
+  <!-- ═══════════════════════════════════════════════
+       GOOGLE SITE VERIFICATION
+  ════════════════════════════════════════════════ -->
+  <meta name="google-site-verification" content="google704c83a2d2251be8" />
+
+  <!-- ═══════════════════════════════════════════════
+       STRUCTURED DATA — Organization
+  ════════════════════════════════════════════════ -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Nestly",
+    "alternateName": ["Nestlyq", "WorkTray", "Nestly App"],
+    "url": "https://nestly-60q.pages.dev/",
+    "logo": "https://nestly-60q.pages.dev/assets/worktray-logo.png",
+    "description": "Nestly is an AI-powered Chrome extension for task management and project management that lives in your browser.",
+    "sameAs": [
+      "https://chromewebstore.google.com/detail/fmlmcffbkjkidooankcompnmaphihoco"
+    ]
+  }
+  </script>
+
+  <!-- ═══════════════════════════════════════════════
+       STRUCTURED DATA — SoftwareApplication
+  ════════════════════════════════════════════════ -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Nestly",
+    "alternateName": ["Nestlyq", "WorkTray"],
+    "applicationCategory": "ProductivityApplication",
+    "applicationSubCategory": "Task Management, Project Management, AI Productivity",
+    "operatingSystem": "Chrome, Chromium, Edge",
+    "offers": [
+      {
+        "@type": "Offer",
+        "name": "Free Plan",
+        "price": "0",
+        "priceCurrency": "USD",
+        "description": "Free forever plan with up to 50 tasks, 10 AI priority suggestions/day, and 1 standup/day"
+      },
+      {
+        "@type": "Offer",
+        "name": "Pro Plan",
+        "price": "5.99",
+        "priceCurrency": "USD",
+        "priceSpecification": {
+          "@type": "UnitPriceSpecification",
+          "price": "5.99",
+          "priceCurrency": "USD",
+          "billingDuration": "P1M"
+        }
+      }
+    ],
+    "description": "Nestly is an AI-powered Chrome extension for task management and project management. It captures tasks from any web page, generates AI priority rankings, writes daily standups, and decomposes complex projects into subtasks.",
+    "url": "https://nestly-60q.pages.dev/",
+    "downloadUrl": "https://chromewebstore.google.com/detail/fmlmcffbkjkidooankcompnmaphihoco",
+    "screenshot": "https://nestly-60q.pages.dev/assets/hero-mascot.png",
+    "featureList": [
+      "AI Task Priority Suggestions",
+      "Daily Standup Generator",
+      "Task Decomposition",
+      "Natural Language Search",
+      "Secure Cloud Sync",
+      "Browser-native task capture",
+      "AI project management",
+      "Puff mascot companion"
+    ],
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.8",
+      "reviewCount": "3",
+      "bestRating": "5"
+    },
+    "review": [
+      {
+        "@type": "Review",
+        "author": { "@type": "Person", "name": "Rahul S." },
+        "reviewRating": { "@type": "Rating", "ratingValue": "5" },
+        "reviewBody": "Finally a task manager that lives inside my browser. The AI standup generator alone saves me 10 minutes every morning."
+      },
+      {
+        "@type": "Review",
+        "author": { "@type": "Person", "name": "Mia P." },
+        "reviewRating": { "@type": "Rating", "ratingValue": "5" },
+        "reviewBody": "I manage 5 client projects. Before Nestly I was losing tasks in email threads constantly. Now Puff catches everything."
+      },
+      {
+        "@type": "Review",
+        "author": { "@type": "Person", "name": "Arjun K." },
+        "reviewRating": { "@type": "Rating", "ratingValue": "4" },
+        "reviewBody": "The NL search is genuinely impressive — I typed 'that payment bug' and it found the exact task from 2 weeks ago."
+      }
+    ]
+  }
+  </script>
+
+  <!-- ═══════════════════════════════════════════════
+       STRUCTURED DATA — FAQPage
+  ════════════════════════════════════════════════ -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is Nestly?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Nestly (also known as Nestlyq and formerly WorkTray) is an AI-powered Chrome extension for task management and project management. It captures tasks from any web page, ranks priorities with AI, writes your daily standups, and decomposes large projects into actionable subtasks."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is Nestlyq?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Nestlyq is an alternate name for Nestly — the AI task management and project management Chrome extension. Both names refer to the same product."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is WorkTray?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "WorkTray is the previous name for Nestly. The product has been rebranded to Nestly — an AI-powered Chrome extension for task management and project management in the browser."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is Nestly free to use?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. Nestly has a free forever plan that includes up to 50 tasks, 10 AI priority suggestions per day, 1 daily standup per day, and 5 task decompositions per day. No credit card required."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How does Nestly's AI task management work?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Nestly uses AI to analyse your tasks based on deadlines, context, and task weight, then ranks them so you always know what to work on next. It also decomposes large tasks into subtasks and generates standup messages from your daily activity."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does Nestly support project management?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. Nestly supports AI project management by letting you capture tasks from any page, break projects into subtasks, rank priorities across multiple projects, and generate status updates and standup messages automatically."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <!-- ═══════════════════════════════════════════════
+       STRUCTURED DATA — WebSite (Sitelinks Searchbox)
+  ════════════════════════════════════════════════ -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Nestly",
+    "alternateName": ["Nestlyq", "WorkTray"],
+    "url": "https://nestly-60q.pages.dev/"
+  }
+  </script>
+
+  <!-- ═══════════════════════════════════════════════
+       ICONS & THEME
+  ════════════════════════════════════════════════ -->
   <link rel="icon" href="assets/worktray-logo.png" type="image/png" />
+  <link rel="apple-touch-icon" href="assets/worktray-logo.png" />
+  <meta name="theme-color" content="#1A2F1C" />
+  <meta name="msapplication-TileColor" content="#1A2F1C" />
+
+  <!-- ═══════════════════════════════════════════════
+       FONTS
+  ════════════════════════════════════════════════ -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,700;1,9..144,400;1,9..144,600&family=DM+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
@@ -1716,6 +1933,11 @@
         <span>© 2025 Nestly. All rights reserved. — v1.0 Beta</span>
         <span>Built with 🌿 and a lot of warmth. Updates shipping weekly.</span>
       </div>
+      <!-- SEO: Alternate names & keyword anchors -->
+      <p style="font-size:11px;color:rgba(245,240,232,0.18);margin-top:16px;line-height:1.8;max-width:700px;">
+        Also known as <strong>Nestlyq</strong> and formerly <strong>WorkTray</strong> — Nestly is an
+        <strong>AI task management</strong> and <strong>AI project management</strong> Chrome extension.
+      </p>
     </div>
   </footer>
 
